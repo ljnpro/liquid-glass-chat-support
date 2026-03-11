@@ -811,7 +811,7 @@
         <span class="badge">Image Understanding</span>
         <span class="badge">LaTeX Rendering</span>
         <span class="badge badge-accent">iOS 26 Liquid Glass</span>
-        <span class="badge badge-accent">v2.0.0</span>
+        <span class="badge badge-accent">v2.1</span>
       </div>
     </div>
   </section>
@@ -995,6 +995,38 @@
 
       <div class="changelog-list">
 
+        <!-- v2.1 -->
+        <div class="changelog-entry glass reveal">
+          <div class="changelog-header">
+            <span class="changelog-version">v2.1</span>
+            <span class="changelog-date">March 11, 2026</span>
+          </div>
+          <div class="changelog-tag changelog-tag-minor">Update</div>
+          <div class="changelog-body">
+            <p class="changelog-subtitle">Reliability &amp; Recovery</p>
+            <ul>
+              <li><strong>Response recovery on force-quit</strong> &mdash; If you send a message and immediately kill the app, the request is automatically re-sent on next launch with a &ldquo;Recovering&hellip;&rdquo; banner</li>
+              <li><strong>Response recovery on interruption</strong> &mdash; Saves <code>responseId</code> from SSE stream; polls OpenAI API on app resume to recover complete responses</li>
+              <li><strong>Network auto-reconnect</strong> &mdash; Detects 8 network error types with exponential backoff retry (1s &rarr; 2s &rarr; 4s, max 3 attempts)</li>
+              <li><strong>Stale draft cleanup</strong> &mdash; Automatically removes incomplete drafts older than 24 hours on app launch</li>
+            </ul>
+            <p class="changelog-subtitle">UI Improvements</p>
+            <ul>
+              <li><strong>Model badge in toolbar</strong> &mdash; Fixed text visibility in iOS 26 toolbar (shows full model name + effort, e.g. &ldquo;GPT-5.4 Pro Medium&rdquo;)</li>
+              <li><strong>Native reasoning effort slider</strong> &mdash; Replaced custom slider with iOS 26 native Slider for Liquid Glass thumb effect</li>
+              <li><strong>GPT-5.4 Pro thinking visibility</strong> &mdash; Real-time chain-of-thought reasoning displayed during streaming</li>
+              <li><strong>Tab bar always visible</strong> &mdash; Chat/History/Settings tabs no longer collapse on scroll</li>
+              <li><strong>Auto-generated titles</strong> &mdash; Conversation titles generated on background enter and retroactively on next launch</li>
+            </ul>
+            <p class="changelog-subtitle">Bug Fixes</p>
+            <ul>
+              <li>Fixed conversation history loss caused by in-memory storage fallback on schema migration</li>
+              <li>Fixed new chat button alignment and glass container shape</li>
+              <li>Removed conversation title from chat view toolbar (only shown in History)</li>
+            </ul>
+          </div>
+        </div>
+
         <!-- v2.0.0 -->
         <div class="changelog-entry glass reveal">
           <div class="changelog-header">
@@ -1137,7 +1169,7 @@
           <img src="icon.png" alt="Liquid Glass Chat" />
           <span>Liquid Glass Chat</span>
         </div>
-        <span class="footer-copy">Version 2.0.0 &middot; Designed for iOS 26</span>
+        <span class="footer-copy">Version 2.1 &middot; Designed for iOS 26</span>
       </div>
     </div>
   </footer>
