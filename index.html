@@ -855,7 +855,9 @@
         <span class="badge">Image Understanding</span>
         <span class="badge">LaTeX Rendering</span>
         <span class="badge badge-accent">iOS 26 Liquid Glass</span>
-        <span class="badge badge-accent">v2.1</span>
+        <span class="badge badge-accent">v3.0.0</span>
+        <span class="badge">Cloudflare AI Gateway</span>
+        <span class="badge">Code Interpreter</span>
       </div>
     </div>
   </section>
@@ -1039,10 +1041,49 @@
 
       <div class="changelog-list">
 
-        <!-- v2.1 -->
+        <!-- v3.0.0 -->
         <div class="changelog-entry glass reveal">
           <div class="changelog-header">
-            <span class="changelog-version">v2.1</span>
+            <span class="changelog-version">v3.0.0</span>
+            <span class="changelog-date">March 13, 2026</span>
+          </div>
+          <div class="changelog-tag changelog-tag-major">Major Release &mdash; In Development</div>
+          <div class="changelog-body">
+            <p class="changelog-subtitle">Cloudflare AI Gateway</p>
+            <ul>
+              <li><strong>Replaced WebSocket relay with Cloudflare AI Gateway</strong> &mdash; All OpenAI API requests now route through Cloudflare&rsquo;s global edge network (300+ cities) for improved reliability and observability</li>
+              <li><strong>Gateway authentication</strong> &mdash; Requests authenticated via <code>cf-aig-authorization</code> header to prevent unauthorized gateway usage</li>
+              <li><strong>Gateway health check</strong> &mdash; Settings UI includes a one-tap connectivity test to verify gateway reachability</li>
+              <li><strong>Zero-maintenance proxy</strong> &mdash; No server to manage; Cloudflare handles routing, retries, and analytics automatically</li>
+            </ul>
+            <p class="changelog-subtitle">Code Interpreter &amp; File Preview</p>
+            <ul>
+              <li><strong>Code interpreter output files</strong> &mdash; AI-generated files (PNG, CSV, etc.) from code execution are now displayed as tappable links in chat</li>
+              <li><strong>Native file preview</strong> &mdash; Tapping a file link downloads it via OpenAI Files API and opens iOS native <code>QLPreviewController</code> for full-screen preview</li>
+              <li><strong>Share &amp; save</strong> &mdash; Preview includes standard iOS share sheet for saving files to Photos, Files, or other apps</li>
+              <li><strong>Download progress indicator</strong> &mdash; Visual progress bar shown during file download with error handling</li>
+            </ul>
+            <p class="changelog-subtitle">Swift Concurrency &amp; Build Fixes</p>
+            <ul>
+              <li><strong>Swift 6 strict concurrency compliance</strong> &mdash; Fixed <code>_platformRelayURL</code> global mutable state with <code>NSLock</code>-backed thread-safe storage</li>
+              <li><strong><code>RelayAPIService</code> Sendable conformance</strong> &mdash; Added <code>@unchecked Sendable</code> for safe cross-actor usage</li>
+              <li><strong><code>StreamEvent.completed</code> tuple alignment</strong> &mdash; Fixed parameter count mismatch after adding <code>FilePathAnnotation</code> support</li>
+            </ul>
+            <p class="changelog-subtitle">Architecture</p>
+            <ul>
+              <li><strong>Removed WebSocket relay layer</strong> &mdash; Deleted <code>RelayAPIService.swift</code> and <code>RelaySocketService.swift</code> (1,150+ lines removed)</li>
+              <li><strong>Unified API routing</strong> &mdash; Single code path for all OpenAI endpoints (<code>/responses</code>, <code>/chat/completions</code>, <code>/files</code>) through configurable base URL</li>
+              <li><strong>New <code>FileDownloadService</code></strong> &mdash; Dedicated actor for downloading files with automatic gateway/direct URL resolution</li>
+              <li><strong>New <code>FilePreviewController</code></strong> &mdash; SwiftUI wrapper around <code>QLPreviewController</code> for native document preview</li>
+              <li><strong><code>FilePathAnnotation</code> model</strong> &mdash; Maps sandbox file paths to OpenAI file IDs for seamless download resolution</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- v2.1.0 -->
+        <div class="changelog-entry glass reveal">
+          <div class="changelog-header">
+            <span class="changelog-version">v2.1.0</span>
             <span class="changelog-date">March 11, 2026</span>
           </div>
           <div class="changelog-tag changelog-tag-minor">Update</div>
@@ -1126,7 +1167,7 @@
         <!-- v1.1 -->
         <div class="changelog-entry glass reveal">
           <div class="changelog-header">
-            <span class="changelog-version">v1.1</span>
+            <span class="changelog-version">v1.1.0</span>
             <span class="changelog-date">March 8, 2026</span>
           </div>
           <div class="changelog-tag changelog-tag-minor">Update</div>
@@ -1145,7 +1186,7 @@
         <!-- v1.0 -->
         <div class="changelog-entry glass reveal">
           <div class="changelog-header">
-            <span class="changelog-version">v1.0</span>
+            <span class="changelog-version">v1.0.0</span>
             <span class="changelog-date">March 5, 2026</span>
           </div>
           <div class="changelog-tag changelog-tag-initial">Initial Release</div>
