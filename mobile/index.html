@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GlassGPT — Mobile Support</title>
+  <meta name="description" content="A mobile-friendly support page for GlassGPT with release notes, file workflow updates, privacy details, and support contact information." />
+  <meta name="theme-color" content="#07101c" />
+  <link rel="icon" type="image/png" href="../icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #050913;
+      --surface: rgba(255, 255, 255, 0.05);
+      --surface-strong: rgba(255, 255, 255, 0.08);
+      --border: rgba(255, 255, 255, 0.09);
+      --border-strong: rgba(255, 255, 255, 0.14);
+      --text: #f6f8fb;
+      --text-secondary: rgba(246, 248, 251, 0.72);
+      --text-muted: rgba(246, 248, 251, 0.48);
+      --accent: #0a84ff;
+      --accent-soft: rgba(10, 132, 255, 0.16);
+      --success: #32d74b;
+      --shadow: 0 24px 70px rgba(0, 0, 0, 0.24);
+      --radius-card: 24px;
+      --radius-pill: 999px;
+      --font: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      font-family: var(--font);
+      background:
+        radial-gradient(circle at top, rgba(10, 132, 255, 0.22), transparent 38%),
+        radial-gradient(circle at 20% 20%, rgba(100, 210, 255, 0.12), transparent 30%),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+      min-height: 100vh;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .page {
+      width: min(100%, 560px);
+      margin: 0 auto;
+      padding: 18px 16px 40px;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 8px 0 16px;
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .brand img {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      box-shadow: 0 12px 28px rgba(10, 132, 255, 0.16);
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    .brand-text strong {
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-text span {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .topbar-actions {
+      display: flex;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .ghost-button,
+    .primary-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border-radius: var(--radius-pill);
+      border: 1px solid var(--border);
+      padding: 11px 14px;
+      font-size: 13px;
+      font-weight: 700;
+      backdrop-filter: blur(22px);
+      -webkit-backdrop-filter: blur(22px);
+    }
+
+    .ghost-button svg,
+    .primary-button svg,
+    .section-nav svg,
+    .mini-chip svg,
+    .support-header svg,
+    .privacy-header svg,
+    .spotlight-group-header svg {
+      width: 16px;
+      height: 16px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.9;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      flex-shrink: 0;
+    }
+
+    .ghost-button {
+      background: var(--surface);
+      color: var(--text);
+    }
+
+    .primary-button {
+      background: linear-gradient(135deg, #0a84ff 0%, #5e5ce6 100%);
+      color: white;
+      border-color: rgba(255, 255, 255, 0.14);
+      box-shadow: 0 12px 28px rgba(10, 132, 255, 0.22);
+    }
+
+    .hero {
+      padding: 18px 0 10px;
+      text-align: center;
+    }
+
+    .hero-icon {
+      width: 88px;
+      height: 88px;
+      border-radius: 24px;
+      margin: 0 auto 20px;
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,0.08),
+        0 18px 52px rgba(10, 132, 255, 0.18);
+    }
+
+    .hero h1 {
+      font-size: 36px;
+      line-height: 1.02;
+      font-weight: 800;
+      letter-spacing: -0.05em;
+      margin-bottom: 10px;
+    }
+
+    .hero p {
+      color: var(--text-secondary);
+      font-size: 15px;
+      max-width: 29rem;
+      margin: 0 auto 18px;
+    }
+
+    .status-pill,
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border-radius: var(--radius-pill);
+      border: 1px solid var(--border);
+      background: var(--surface);
+      padding: 9px 14px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-secondary);
+    }
+
+    .status-pill::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 6px rgba(10, 132, 255, 0.15);
+    }
+
+    .actions {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .hero-chips {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .mini-chip {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+      padding: 14px 14px 13px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.045);
+      color: var(--text-secondary);
+      text-align: left;
+      box-shadow: 0 16px 42px rgba(0, 0, 0, 0.18);
+    }
+
+    .mini-chip strong {
+      color: var(--text);
+      font-size: 12px;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+    }
+
+    .mini-chip span {
+      font-size: 11px;
+      line-height: 1.3;
+      color: var(--text-muted);
+    }
+
+    .section-nav {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: 24px;
+    }
+
+    .section-nav a {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      border-radius: 18px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      padding: 10px 8px;
+      text-align: center;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-secondary);
+    }
+
+    .section-nav svg {
+      width: 15px;
+      height: 15px;
+      color: #7fcaff;
+    }
+
+    .section {
+      margin-top: 32px;
+    }
+
+    .section-header {
+      margin-bottom: 14px;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #72c7ff;
+      margin-bottom: 8px;
+    }
+
+    .section-header h2 {
+      font-size: 24px;
+      line-height: 1.08;
+      letter-spacing: -0.04em;
+      margin-bottom: 6px;
+    }
+
+    .section-header p {
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+
+    .stack {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-card);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(28px) saturate(1.35);
+      -webkit-backdrop-filter: blur(28px) saturate(1.35);
+    }
+
+    .card-body {
+      padding: 18px;
+    }
+
+    .highlight-card .icon-wrap {
+      width: 40px;
+      height: 40px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--accent-soft);
+      border: 1px solid rgba(10, 132, 255, 0.2);
+      margin-bottom: 12px;
+    }
+
+    .highlight-card svg {
+      width: 18px;
+      height: 18px;
+      stroke: #72c7ff;
+      fill: none;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .highlight-card h3,
+    .spotlight-group h3,
+    .privacy-card h3,
+    .support-card h3 {
+      font-size: 17px;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin-bottom: 6px;
+    }
+
+    .highlight-card p,
+    .spotlight-group p,
+    .privacy-card p,
+    .support-card p {
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+
+    .spotlight-card {
+      overflow: hidden;
+    }
+
+    .spotlight-top {
+      padding: 18px 18px 14px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .spotlight-top strong {
+      display: block;
+      font-size: 18px;
+      letter-spacing: -0.03em;
+      margin-bottom: 6px;
+    }
+
+    .spotlight-top p {
+      color: var(--text-secondary);
+      font-size: 14px;
+    }
+
+    .spotlight-groups {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      background: var(--border);
+    }
+
+    .spotlight-group {
+      background: rgba(255, 255, 255, 0.03);
+      padding: 16px 18px;
+    }
+
+    .spotlight-group-header,
+    .privacy-header,
+    .support-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 6px;
+      color: var(--text);
+    }
+
+    .spotlight-group-header span,
+    .privacy-header span,
+    .support-header span {
+      font-size: 17px;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      font-weight: 700;
+    }
+
+    .spotlight-group ul,
+    .privacy-list {
+      list-style: none;
+      margin-top: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .spotlight-group li,
+    .privacy-list li {
+      position: relative;
+      padding-left: 16px;
+      color: var(--text-secondary);
+      font-size: 13px;
+    }
+
+    .spotlight-group li::before,
+    .privacy-list li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 9px;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      opacity: 0.75;
+    }
+
+    details.card {
+      overflow: hidden;
+    }
+
+    details > summary {
+      list-style: none;
+      cursor: pointer;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    details > summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .summary-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .summary-version {
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+    }
+
+    .summary-date {
+      font-size: 12px;
+      color: var(--text-muted);
+      flex-shrink: 0;
+    }
+
+    .summary-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      color: var(--text-secondary);
+      font-size: 13px;
+    }
+
+    .summary-tag {
+      display: inline-flex;
+      align-items: center;
+      border-radius: var(--radius-pill);
+      border: 1px solid var(--border-strong);
+      background: rgba(255, 255, 255, 0.06);
+      padding: 5px 10px;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .summary-tag.major { color: #72c7ff; }
+    .summary-tag.minor { color: var(--success); }
+    .summary-tag.initial { color: #bf5af2; }
+
+    .detail-body {
+      border-top: 1px solid var(--border);
+      padding: 0 18px 18px;
+    }
+
+    .detail-group {
+      margin-top: 16px;
+    }
+
+    .detail-group h3 {
+      font-size: 13px;
+      letter-spacing: -0.01em;
+      margin-bottom: 8px;
+    }
+
+    .detail-group ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .detail-group li {
+      position: relative;
+      padding-left: 16px;
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+
+    .detail-group li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 9px;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      opacity: 0.75;
+    }
+
+    .faq-item {
+      padding: 18px;
+    }
+
+    .faq-item summary {
+      list-style: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .faq-item summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .faq-item p {
+      margin-top: 12px;
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+
+    .faq-item a,
+    .support-card a,
+    .privacy-card a {
+      color: #72c7ff;
+    }
+
+    .support-card .primary-button {
+      width: 100%;
+      justify-content: center;
+      margin-top: 16px;
+    }
+
+    .footer {
+      padding: 28px 0 8px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 12px;
+    }
+
+    @media (min-width: 560px) {
+      .page {
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="topbar">
+      <a class="brand" href="#top">
+        <img src="../icon.png" alt="GlassGPT" />
+        <span class="brand-text">
+          <strong>GlassGPT</strong>
+          <span>Mobile support page</span>
+        </span>
+      </a>
+      <div class="topbar-actions">
+        <a class="ghost-button" href="../?view=desktop">Desktop</a>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="hero">
+        <img src="../icon.png" alt="GlassGPT icon" class="hero-icon" />
+        <h1>GlassGPT</h1>
+        <p>A cleaner support page for iPhone-sized screens, with the same release notes and support information in a layout that does not collapse into narrow columns.</p>
+        <span class="status-pill">v3.0.0 in development</span>
+        <div class="actions">
+          <a class="primary-button" href="https://github.com/ljnpro/GlassGPT" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 19c-4 1.5-4-2-6-2"/><path d="M15 22v-3.9a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 19 4.77 5.07 5.07 0 0 0 18.91 1S17.73.65 15 2.48a13.38 13.38 0 0 0-6 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77 5.44 5.44 0 0 0 3.5 8.5c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.1V22"/></svg>
+            View source
+          </a>
+          <a class="ghost-button" href="mailto:ljnpro6@gmail.com">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m5 8 7 5 7-5"/></svg>
+            Contact support
+          </a>
+        </div>
+        <div class="hero-chips">
+          <div class="mini-chip">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="14" rx="3"/><path d="M8 10h8"/><path d="M8 14h5"/></svg>
+            <strong>Native viewers</strong>
+            <span>Images and PDFs handled inside the app.</span>
+          </div>
+          <div class="mini-chip">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 19h12"/><path d="M9 15V9"/><path d="M15 15V5"/><path d="M12 15v-3"/></svg>
+            <strong>Routing control</strong>
+            <span>Direct OpenAI or gateway-based paths.</span>
+          </div>
+          <div class="mini-chip">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6V3"/><path d="M16.25 7.75 18.4 5.6"/><path d="M18 12h3"/><path d="M16.25 16.25 18.4 18.4"/><path d="M12 18v3"/><path d="M7.75 16.25 5.6 18.4"/><path d="M6 12H3"/><path d="M7.75 7.75 5.6 5.6"/><circle cx="12" cy="12" r="3"/></svg>
+            <strong>On-device caches</strong>
+            <span>Separate image and document storage.</span>
+          </div>
+        </div>
+        <nav class="section-nav" aria-label="Quick links">
+          <a href="#highlights">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+            Highlights
+          </a>
+          <a href="#spotlight">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 4 7v6c0 5 3.5 7.5 8 8 4.5-.5 8-3 8-8V7l-8-4Z"/><path d="m9.5 12 1.7 1.7 3.3-3.4"/></svg>
+            v3.0.0
+          </a>
+          <a href="#changelog">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6h12"/><path d="M8 12h12"/><path d="M8 18h12"/><path d="M4 6h.01"/><path d="M4 12h.01"/><path d="M4 18h.01"/></svg>
+            Changelog
+          </a>
+          <a href="#faq">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.1 9a3 3 0 1 1 5.8 1c0 2-3 2-3 4"/><path d="M12 17h.01"/></svg>
+            FAQ
+          </a>
+        </nav>
+      </section>
+
+      <section class="section" id="highlights">
+        <div class="section-header">
+          <span class="eyebrow">Highlights</span>
+          <h2>The short version</h2>
+          <p>The mobile page leads with the parts people are most likely to look up on a phone.</p>
+        </div>
+        <div class="stack">
+          <article class="card highlight-card">
+            <div class="card-body">
+              <div class="icon-wrap">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h16"/><path d="M12 4v16"/><circle cx="12" cy="12" r="9"/></svg>
+              </div>
+              <h3>Model and routing control</h3>
+              <p>GlassGPT keeps GPT-5.4 and GPT-5.4 Pro model selection explicit, and can follow either direct OpenAI routing or a configured gateway path.</p>
+            </div>
+          </article>
+          <article class="card highlight-card">
+            <div class="card-body">
+              <div class="icon-wrap">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4h10"/><path d="M7 20h10"/><rect x="4" y="7" width="16" height="10" rx="2"/></svg>
+              </div>
+              <h3>Generated file workflows</h3>
+              <p>Code interpreter outputs show up as tappable links in chat, with native handling for images and PDFs instead of a dead-end download flow.</p>
+            </div>
+          </article>
+          <article class="card highlight-card">
+            <div class="card-body">
+              <div class="icon-wrap">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19V8a2 2 0 0 1 2-2h10"/><path d="M9 5h8a2 2 0 0 1 2 2v12H7a2 2 0 0 1-2-2"/><path d="M9 12h6"/></svg>
+              </div>
+              <h3>Native viewers</h3>
+              <p>PNG, JPG, and JPEG files use the in-app image viewer, PDFs use a dedicated PDF viewer, and other generated files go straight to the iOS share sheet.</p>
+            </div>
+          </article>
+          <article class="card highlight-card">
+            <div class="card-body">
+              <div class="icon-wrap">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8a8 8 0 1 1 16 0v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2Z"/><path d="M9 12h6"/></svg>
+              </div>
+              <h3>On-device caches</h3>
+              <p>Generated images and generated documents are cached separately on device, with independent 250 MB limits and manual clear controls in Settings.</p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="spotlight">
+        <div class="section-header">
+          <span class="eyebrow">v3.0.0 spotlight</span>
+          <h2>What the current branch is adding</h2>
+          <p>The existing v3.0.0 changelog stays intact. This mobile page simply pulls the most important current additions into one compact card.</p>
+        </div>
+        <article class="card spotlight-card">
+          <div class="spotlight-top">
+            <strong>Still in development</strong>
+            <p>v3.0.0 keeps the routing and architecture changes already listed in the main changelog, then layers in clearer generated-file behavior and more polished viewers.</p>
+          </div>
+          <div class="spotlight-groups">
+            <section class="spotlight-group">
+              <div class="spotlight-group-header">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16"/><path d="M7 12h10"/><path d="M10 17h4"/></svg>
+                <span>Gateway and routing</span>
+              </div>
+              <ul>
+                <li>Cloudflare AI Gateway support stays in place.</li>
+                <li>File downloads can fall back to direct OpenAI when needed.</li>
+              </ul>
+            </section>
+            <section class="spotlight-group">
+              <div class="spotlight-group-header">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14"/><path d="M14 3v5h5"/><path d="M9 13h6"/><path d="M9 17h4"/><path d="M14 3l5 5v11a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2"/></svg>
+                <span>Generated file handling</span>
+              </div>
+              <ul>
+                <li>PNG, JPG, and JPEG open in the image viewer.</li>
+                <li>PDF files open in a dedicated PDF viewer.</li>
+                <li>Other generated files open through the iOS share sheet.</li>
+              </ul>
+            </section>
+            <section class="spotlight-group">
+              <div class="spotlight-group-header">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v2H4Z"/><path d="M4 11h16v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2Z"/><path d="M10 14h4"/></svg>
+                <span>Cache separation</span>
+              </div>
+              <ul>
+                <li>Image Cache stores generated PNG, JPG, and JPEG files.</li>
+                <li>Document Cache stores PDFs and all other generated files.</li>
+                <li>Both caches recover old links after the original sandbox URL expires.</li>
+              </ul>
+            </section>
+            <section class="spotlight-group">
+              <div class="spotlight-group-header">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18"/><path d="M3 12h18"/><circle cx="12" cy="12" r="8"/></svg>
+                <span>Viewer polish</span>
+              </div>
+              <ul>
+                <li>Image preview follows the app theme and uses native-feeling controls.</li>
+                <li>Users can save generated images to Photos with clear feedback.</li>
+                <li>Share behavior now matches the file type instead of forcing one preview path.</li>
+              </ul>
+            </section>
+          </div>
+        </article>
+      </section>
+
+      <section class="section" id="changelog">
+        <div class="section-header">
+          <span class="eyebrow">Changelog</span>
+          <h2>Release notes on a phone</h2>
+          <p>Each entry opens inline instead of forcing a long, dense desktop-style list.</p>
+        </div>
+        <div class="stack">
+          <details class="card" open>
+            <summary>
+              <div class="summary-top">
+                <span class="summary-version">v3.0.0</span>
+                <span class="summary-date">Mar 13, 2026</span>
+              </div>
+              <div class="summary-meta">
+                <span class="summary-tag major">In development</span>
+                <span>Gateway, file outputs, native viewers, and cache work</span>
+              </div>
+            </summary>
+            <div class="detail-body">
+              <section class="detail-group">
+                <h3>Cloudflare AI Gateway</h3>
+                <ul>
+                  <li>Replaced the old relay approach with Cloudflare AI Gateway.</li>
+                  <li>Added gateway authentication and a one-tap health check in Settings.</li>
+                  <li>Kept a direct path available where file delivery needs it.</li>
+                </ul>
+              </section>
+              <section class="detail-group">
+                <h3>Code interpreter files</h3>
+                <ul>
+                  <li>Generated files now show as tappable links inside chat.</li>
+                  <li>PNG, JPG, and JPEG open in the image viewer.</li>
+                  <li>PDF uses a dedicated native-feeling PDF page.</li>
+                  <li>Other generated files go straight to the iOS share sheet.</li>
+                </ul>
+              </section>
+              <section class="detail-group">
+                <h3>Cache and preview improvements</h3>
+                <ul>
+                  <li>Generated files are cached when the response completes.</li>
+                  <li>Image Cache and Document Cache are separated and can be cleared independently.</li>
+                  <li>Viewer polish includes theme-aware backgrounds, save-to-Photos feedback, and better close behavior.</li>
+                </ul>
+              </section>
+              <section class="detail-group">
+                <h3>Architecture</h3>
+                <ul>
+                  <li>The routing migration and relay removal notes from the existing v3.0.0 changelog remain part of this release.</li>
+                  <li>Dedicated file download logic now sits underneath generated-file preview and sharing.</li>
+                </ul>
+              </section>
+            </div>
+          </details>
+
+          <details class="card">
+            <summary>
+              <div class="summary-top">
+                <span class="summary-version">v2.1.0</span>
+                <span class="summary-date">Mar 11, 2026</span>
+              </div>
+              <div class="summary-meta">
+                <span class="summary-tag minor">Update</span>
+                <span>Recovery, toolbar polish, and native UI improvements</span>
+              </div>
+            </summary>
+            <div class="detail-body">
+              <section class="detail-group">
+                <h3>Reliability and recovery</h3>
+                <ul>
+                  <li>Response recovery after interruption or force-quit.</li>
+                  <li>Network auto-reconnect with exponential backoff.</li>
+                  <li>Cleanup for stale incomplete drafts.</li>
+                </ul>
+              </section>
+              <section class="detail-group">
+                <h3>UI improvements</h3>
+                <ul>
+                  <li>Better toolbar model badge and reasoning controls.</li>
+                  <li>Centered empty state and cleaner input bar.</li>
+                  <li>Improved platform-specific adaptation for iPad and iOS 26.</li>
+                </ul>
+              </section>
+            </div>
+          </details>
+
+          <details class="card">
+            <summary>
+              <div class="summary-top">
+                <span class="summary-version">v2.0.0</span>
+                <span class="summary-date">Mar 10, 2026</span>
+              </div>
+              <div class="summary-meta">
+                <span class="summary-tag major">Major release</span>
+                <span>Native rewrite, SwiftUI, SwiftData, and Liquid Glass</span>
+              </div>
+            </summary>
+            <div class="detail-body">
+              <section class="detail-group">
+                <h3>Core changes</h3>
+                <ul>
+                  <li>Complete native rewrite in Swift and SwiftUI.</li>
+                  <li>SwiftData persistence for conversations and messages.</li>
+                  <li>Native glass effects instead of a React Native interface layer.</li>
+                </ul>
+              </section>
+            </div>
+          </details>
+
+          <details class="card">
+            <summary>
+              <div class="summary-top">
+                <span class="summary-version">v1.1.0</span>
+                <span class="summary-date">Mar 8, 2026</span>
+              </div>
+              <div class="summary-meta">
+                <span class="summary-tag minor">Update</span>
+                <span>Expo SDK 55, streaming recovery, and image uploads</span>
+              </div>
+            </summary>
+            <div class="detail-body">
+              <section class="detail-group">
+                <h3>Highlights</h3>
+                <ul>
+                  <li>Expo SDK 55 upgrade and dependency refresh.</li>
+                  <li>Streaming with stall detection and reconnect behavior.</li>
+                  <li>Image upload support with HEIC, JPEG, and PNG conversion.</li>
+                </ul>
+              </section>
+            </div>
+          </details>
+
+          <details class="card">
+            <summary>
+              <div class="summary-top">
+                <span class="summary-version">v1.0.0</span>
+                <span class="summary-date">Mar 5, 2026</span>
+              </div>
+              <div class="summary-meta">
+                <span class="summary-tag initial">Initial</span>
+                <span>First release with GPT-5.4 and native iOS styling</span>
+              </div>
+            </summary>
+            <div class="detail-body">
+              <section class="detail-group">
+                <h3>Highlights</h3>
+                <ul>
+                  <li>GPT-5.4 and GPT-5.4 Pro with adjustable reasoning effort.</li>
+                  <li>Native-style iOS 26 visual design.</li>
+                  <li>Secure API key storage and conversation history.</li>
+                </ul>
+              </section>
+            </div>
+          </details>
+        </div>
+      </section>
+
+      <section class="section" id="faq">
+        <div class="section-header">
+          <span class="eyebrow">FAQ</span>
+          <h2>Quick answers</h2>
+          <p>The mobile page keeps these shorter and easier to scan.</p>
+        </div>
+        <div class="stack">
+          <details class="card faq-item" open>
+            <summary>How do I get an OpenAI API key?</summary>
+            <p>Go to <a href="https://platform.openai.com/api-keys" target="_blank" rel="noopener">platform.openai.com/api-keys</a>, create a key, enable billing on your OpenAI account, and paste the key into the Settings tab.</p>
+          </details>
+          <details class="card faq-item">
+            <summary>What models are supported?</summary>
+            <p>GlassGPT supports GPT-5.4 and GPT-5.4 Pro, with explicit reasoning effort controls instead of a single hidden default.</p>
+          </details>
+          <details class="card faq-item">
+            <summary>How are generated files handled?</summary>
+            <p>Images open in the image viewer, PDFs open in the PDF viewer, and everything else uses the system share sheet so you can pass the file to another app.</p>
+          </details>
+          <details class="card faq-item">
+            <summary>Are API keys and history stored on device?</summary>
+            <p>Yes. Keys stay in on-device secure storage and conversations stay local to the device. Requests follow the configured API route without turning GlassGPT into its own analytics backend.</p>
+          </details>
+        </div>
+      </section>
+
+      <section class="section" id="privacy">
+        <div class="section-header">
+          <span class="eyebrow">Privacy</span>
+          <h2>Still the same principle</h2>
+          <p>The mobile route trims the wording, not the policy.</p>
+        </div>
+        <article class="card privacy-card">
+          <div class="card-body">
+            <div class="privacy-header">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 5 6v6c0 5 3.5 7.5 7 8 3.5-.5 7-3 7-8V6l-7-3Z"/><path d="m9.5 12 1.8 1.8 3.7-3.8"/></svg>
+              <span>Your device stays at the center</span>
+            </div>
+            <p>GlassGPT is designed to keep credentials, conversations, and generated files local to your device wherever possible.</p>
+            <ul class="privacy-list">
+              <li>No analytics, ad tech, or tracking SDKs.</li>
+              <li>Conversation history is stored on device.</li>
+              <li>Requests follow the configured OpenAI or gateway route.</li>
+              <li>OpenAI policy still applies to the upstream API interaction.</li>
+            </ul>
+          </div>
+        </article>
+      </section>
+
+      <section class="section" id="support">
+        <div class="section-header">
+          <span class="eyebrow">Support</span>
+          <h2>Need help?</h2>
+          <p>Use the support channel for install issues, API key setup, preview problems, or questions about the current v3.0.0 branch.</p>
+        </div>
+        <article class="card support-card">
+          <div class="card-body">
+            <div class="support-header">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19V7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12"/><path d="m22 7-10 6L2 7"/><path d="M6 19h12"/></svg>
+              <span>Contact support</span>
+            </div>
+            <p>If something breaks, if a generated file viewer is not behaving correctly, or if you need help setting up routing, email the support address directly.</p>
+            <a class="primary-button" href="mailto:ljnpro6@gmail.com">ljnpro6@gmail.com</a>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <footer class="footer">
+      v3.0.0 in development · Mobile route preview for GlassGPT support
+    </footer>
+  </div>
+</body>
+</html>
