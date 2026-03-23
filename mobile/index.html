@@ -3,12 +3,436 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GlassGPT</title>
-  <meta http-equiv="refresh" content="0; url=../" />
-  <script>
-    const target = "../" + window.location.search + window.location.hash;
-    window.location.replace(target);
-  </script>
+  <title>GlassGPT 4.0 - Mobile</title>
+  <meta
+    name="description"
+    content="GlassGPT 4.0 on mobile: a native AI chat client rebuilt around clear modules, actor-owned runtime, and calmer recovery through the 4.5 to 4.10 release line."
+  />
+  <meta name="theme-color" content="#070b11" />
+  <link rel="icon" type="image/png" href="../icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Space+Grotesk:wght@500;700&amp;display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+
+    :root {
+      --bg: #070b11;
+      --surface: rgba(18, 24, 34, 0.68);
+      --line: rgba(255, 255, 255, 0.08);
+      --text: #f4f7fb;
+      --text-muted: rgba(244, 247, 251, 0.72);
+      --text-soft: rgba(244, 247, 251, 0.48);
+      --accent: #86c4ff;
+      --accent-strong: #4f9fff;
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 18px;
+      --radius-sm: 14px;
+      --shadow: 0 24px 70px rgba(0, 0, 0, 0.28);
+      --font-body: "Manrope", -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-display: "Space Grotesk", -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      margin: 0;
+      font-family: var(--font-body);
+      color: var(--text);
+      background:
+        radial-gradient(circle at 20% 16%, rgba(79, 159, 255, 0.18), transparent 34%),
+        radial-gradient(circle at 72% 38%, rgba(134, 196, 255, 0.12), transparent 32%),
+        linear-gradient(180deg, #0a0f17 0%, #060910 48%, #04060b 100%);
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+      background-size: 72px 72px;
+      mask-image: radial-gradient(circle at center, black 28%, transparent 100%);
+      opacity: 0.24;
+    }
+
+    img { display: block; max-width: 100%; }
+    a { color: inherit; }
+
+    .page {
+      width: min(100vw - 24px, 460px);
+      margin: 0 auto;
+      padding: 18px 0 56px;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 30px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+      text-decoration: none;
+    }
+
+    .brand img {
+      width: 36px;
+      height: 36px;
+      border-radius: 12px;
+      box-shadow:
+        0 0 0 1px rgba(255, 255, 255, 0.12),
+        0 12px 30px rgba(79, 159, 255, 0.18);
+    }
+
+    .brand-copy strong {
+      display: block;
+      font-family: var(--font-display);
+      font-size: 18px;
+      letter-spacing: -0.03em;
+    }
+
+    .brand-copy span {
+      display: block;
+      font-size: 12px;
+      color: var(--text-soft);
+    }
+
+    .nav-link,
+    .button,
+    .support-links a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      padding: 0 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.04);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .hero {
+      padding: 10px 0 34px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 18px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 24px;
+      height: 1px;
+      background: linear-gradient(90deg, rgba(134, 196, 255, 0.12), rgba(134, 196, 255, 0.9));
+    }
+
+    .headline {
+      margin: 0 0 16px;
+      font-family: var(--font-display);
+      font-size: clamp(48px, 14vw, 66px);
+      line-height: 0.95;
+      letter-spacing: -0.06em;
+    }
+
+    .headline span {
+      display: block;
+      color: rgba(244, 247, 251, 0.76);
+    }
+
+    .hero-lead {
+      margin: 0 0 24px;
+      font-size: 15px;
+      line-height: 1.7;
+      color: var(--text-muted);
+      max-width: 22ch;
+    }
+
+    .hero-actions {
+      display: grid;
+      gap: 12px;
+      margin-bottom: 22px;
+    }
+
+    .button-primary {
+      background: linear-gradient(135deg, #dff0ff 0%, #86c4ff 58%, #5eabff 100%);
+      color: #06101e;
+      box-shadow: 0 16px 38px rgba(79, 159, 255, 0.24);
+    }
+
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .metric {
+      padding-top: 14px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .metric strong {
+      display: block;
+      margin-bottom: 4px;
+      font-family: var(--font-display);
+      font-size: 18px;
+      letter-spacing: -0.04em;
+    }
+
+    .metric span {
+      font-size: 12px;
+      color: var(--text-soft);
+    }
+
+    .glass {
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02)),
+        var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(24px) saturate(130%);
+      -webkit-backdrop-filter: blur(24px) saturate(130%);
+    }
+
+    .panel {
+      padding: 22px 18px;
+      margin-top: 18px;
+    }
+
+    .panel h2 {
+      margin: 0 0 8px;
+      font-family: var(--font-display);
+      font-size: 28px;
+      line-height: 1;
+      letter-spacing: -0.04em;
+    }
+
+    .panel-copy {
+      margin: 0 0 18px;
+      font-size: 14px;
+      line-height: 1.65;
+      color: var(--text-muted);
+    }
+
+    .system-grid {
+      display: grid;
+      gap: 12px;
+    }
+
+    .system-item {
+      padding: 16px;
+      border-radius: var(--radius-md);
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .system-item span,
+    .timeline-item span {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .system-item strong,
+    .timeline-item strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 18px;
+      letter-spacing: -0.03em;
+    }
+
+    .system-item p,
+    .timeline-item p {
+      margin: 0;
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--text-muted);
+    }
+
+    .timeline-list {
+      display: grid;
+      gap: 14px;
+    }
+
+    .timeline-item {
+      padding: 0 0 14px 14px;
+      border-left: 1px solid rgba(134, 196, 255, 0.28);
+    }
+
+    .support-links {
+      list-style: none;
+      display: grid;
+      gap: 12px;
+      padding: 0;
+      margin: 0 0 16px;
+    }
+
+    .support-note {
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--text-soft);
+    }
+
+    .footer {
+      margin-top: 18px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      font-size: 12px;
+      color: var(--text-soft);
+    }
+  </style>
 </head>
-<body></body>
+<body>
+  <div class="page">
+    <header class="nav">
+      <a class="brand" href="../">
+        <img src="../icon.png" alt="GlassGPT logo" />
+        <div class="brand-copy">
+          <strong>GlassGPT</strong>
+          <span>4.0 release era</span>
+        </div>
+      </a>
+      <a class="nav-link" href="../?view=desktop">Desktop</a>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="eyebrow">GlassGPT 4.0 release era</div>
+        <h1 class="headline">
+          Native by design.
+          <span>Modular by default.</span>
+        </h1>
+        <p class="hero-lead">
+          The native rewrite through 4.10, compressed for a quick mobile read.
+        </p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="https://github.com/ljnpro/GlassGPT" target="_blank" rel="noopener">View the source</a>
+          <a class="button" href="#support">Contact support</a>
+        </div>
+        <div class="metrics">
+          <div class="metric">
+            <strong>4.5 to 4.10</strong>
+            <span>Native line</span>
+          </div>
+          <div class="metric">
+            <strong>16 modules</strong>
+            <span>Clear seams</span>
+          </div>
+          <div class="metric">
+            <strong>1 runtime</strong>
+            <span>Actor-owned</span>
+          </div>
+          <div class="metric">
+            <strong>Direct + gateway</strong>
+            <span>Transport</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel glass" id="system">
+        <h2>System</h2>
+        <p class="panel-copy">A shorter mobile version of the same architecture story.</p>
+        <div class="system-grid">
+          <article class="system-item">
+            <span>Surface</span>
+            <strong>UI stays at the edge</strong>
+            <p>Chat, history, settings, and previews stay in the surface layer.</p>
+          </article>
+          <article class="system-item">
+            <span>Composition</span>
+            <strong>Wiring happens once</strong>
+            <p>The composition root owns production assembly.</p>
+          </article>
+          <article class="system-item">
+            <span>Runtime</span>
+            <strong>One owner for reply state</strong>
+            <p>ReplySessionActor owns mutation while evaluators keep decisions explicit.</p>
+          </article>
+          <article class="system-item">
+            <span>Release</span>
+            <strong>Harder gates</strong>
+            <p>CI, docs, localization, accessibility, and performance checks ship with the product.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel glass" id="timeline">
+        <h2>Timeline</h2>
+        <p class="panel-copy">Five short milestones from the changelog.</p>
+        <div class="timeline-list">
+          <article class="timeline-item">
+            <span>4.5</span>
+            <strong>Native rewrite</strong>
+            <p>SwiftUI, SwiftData, and package boundaries land together.</p>
+          </article>
+          <article class="timeline-item">
+            <span>4.7</span>
+            <strong>Runtime ownership</strong>
+            <p>ReplySessionActor and the composition root become explicit.</p>
+          </article>
+          <article class="timeline-item">
+            <span>4.8</span>
+            <strong>Engineering rigor</strong>
+            <p>Typed throws, observability, accessibility, and stronger CI expand the safety net.</p>
+          </article>
+          <article class="timeline-item">
+            <span>4.9</span>
+            <strong>Boundary tightening</strong>
+            <p>Ownership narrows and release-readiness becomes standard.</p>
+          </article>
+          <article class="timeline-item">
+            <span>4.10</span>
+            <strong>Reliability line</strong>
+            <p>Gateway modes, direct validation, fallback routing, and runtime hardening mature together.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel glass" id="support">
+        <h2>Support</h2>
+        <p class="panel-copy">Local-first. Bring your own API key. Optional gateway routing.</p>
+        <ul class="support-links">
+          <li><a href="mailto:ljnpro6@gmail.com">ljnpro6@gmail.com</a></li>
+          <li><a href="https://github.com/ljnpro/GlassGPT" target="_blank" rel="noopener">GitHub repository</a></li>
+        </ul>
+        <div class="support-note">This mobile route keeps the same 4.0 story, but trims it for smaller screens.</div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      GlassGPT 4.0 release era, 4.5 through 4.10.
+    </footer>
+  </div>
+</body>
 </html>

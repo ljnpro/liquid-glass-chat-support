@@ -9,6 +9,26 @@
     content="GlassGPT 4.0 is the native architecture era of GlassGPT: a modular AI chat client with actor-owned runtime, release-grade recovery, and refined liquid-glass design across the 4.5 to 4.10 release line."
   />
   <meta name="theme-color" content="#070b11" />
+  <script>
+    (function () {
+      const params = new URLSearchParams(window.location.search);
+      const keepDesktop = params.get("view") === "desktop";
+      const onMobileRoute = /\/mobile\/?$/.test(window.location.pathname);
+      const isMobileClient = window.matchMedia("(max-width: 860px)").matches ||
+        /Android|iPhone|iPad|iPod|Mobile/i.test(window.navigator.userAgent);
+
+      if (keepDesktop || onMobileRoute || !isMobileClient) {
+        return;
+      }
+
+      let pathname = window.location.pathname.replace(/index\.html$/, "");
+      if (!pathname.endsWith("/")) {
+        pathname += "/";
+      }
+
+      window.location.replace(pathname + "mobile/" + window.location.search + window.location.hash);
+    })();
+  </script>
   <link rel="icon" type="image/png" href="icon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
