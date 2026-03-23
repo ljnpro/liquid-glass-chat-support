@@ -3,1695 +3,1575 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GlassGPT — Support &amp; Release Notes</title>
-  <meta name="description" content="Support and release notes for GlassGPT — a native iOS AI client with GPT-5.4 Pro, code interpreter workflows, Cloudflare AI Gateway support, and native file previews." />
-  <meta name="theme-color" content="#0a0e1a" />
+  <title>GlassGPT 4.0 - Support and Release Notes</title>
+  <meta
+    name="description"
+    content="GlassGPT 4.0 is the native architecture era of GlassGPT: a modular AI chat client with actor-owned runtime, release-grade recovery, and refined liquid-glass design across the 4.5 to 4.10 release line."
+  />
+  <meta name="theme-color" content="#070b11" />
   <script>
-    (function() {
-      var params = new URLSearchParams(window.location.search);
-      var keepDesktop = params.get('view') === 'desktop';
-      var onMobileRoute = /\/mobile\/?$/.test(window.location.pathname);
-      var isMobileClient = window.matchMedia('(max-width: 860px)').matches ||
+    (function () {
+      const params = new URLSearchParams(window.location.search);
+      const keepDesktop = params.get("view") === "desktop";
+      const onMobileRoute = /\/mobile\/?$/.test(window.location.pathname);
+      const isMobileClient = window.matchMedia("(max-width: 860px)").matches ||
         /Android|iPhone|iPad|iPod|Mobile/i.test(window.navigator.userAgent);
 
       if (keepDesktop || onMobileRoute || !isMobileClient) {
         return;
       }
 
-      var pathname = window.location.pathname.replace(/index\.html$/, '');
-      if (!pathname.endsWith('/')) {
-        pathname += '/';
+      let pathname = window.location.pathname.replace(/index\.html$/, "");
+      if (!pathname.endsWith("/")) {
+        pathname += "/";
       }
 
-      var suffix = params.toString();
-      window.location.replace(pathname + 'mobile/' + (suffix ? '?' + suffix : '') + window.location.hash);
+      window.location.replace(pathname + "mobile/" + window.location.search + window.location.hash);
     })();
   </script>
   <link rel="icon" type="image/png" href="icon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Space+Grotesk:wght@500;700&amp;display=swap"
+    rel="stylesheet"
+  />
   <style>
-    /* ================================================================
-       CSS Reset & Base
-       ================================================================ */
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    *, *::before, *::after { box-sizing: border-box; }
 
     :root {
-      --bg-deep: #050913;
-      --bg-surface: #0d1424;
-      --bg-elevated: #101a2c;
-      --glass-bg: rgba(255, 255, 255, 0.045);
-      --glass-border: rgba(255, 255, 255, 0.085);
-      --glass-highlight: rgba(255, 255, 255, 0.15);
-      --glass-inner: rgba(255, 255, 255, 0.05);
-      --text-primary: #f6f8fb;
-      --text-secondary: rgba(246, 248, 251, 0.72);
-      --text-muted: rgba(246, 248, 251, 0.44);
-      --accent: #007AFF;
-      --accent-2: #64D2FF;
-      --accent-glow: rgba(0, 122, 255, 0.25);
-      --accent-soft: rgba(0, 122, 255, 0.12);
-      --success: #32D74B;
-      --divider: rgba(255, 255, 255, 0.065);
-      --gradient-blue: linear-gradient(135deg, #0A84FF 0%, #5E5CE6 52%, #64D2FF 100%);
-      --gradient-hero: radial-gradient(ellipse 82% 64% at 50% 0%, rgba(0, 122, 255, 0.16) 0%, transparent 66%), radial-gradient(ellipse 60% 46% at 18% 22%, rgba(100, 210, 255, 0.08) 0%, transparent 72%);
-      --radius-sm: 12px;
-      --radius-md: 20px;
-      --radius-lg: 28px;
+      --bg: #070b11;
+      --bg-deep: #04060b;
+      --bg-soft: #0e131c;
+      --surface: rgba(18, 24, 34, 0.62);
+      --surface-strong: rgba(21, 29, 41, 0.84);
+      --surface-soft: rgba(255, 255, 255, 0.035);
+      --line: rgba(255, 255, 255, 0.08);
+      --line-strong: rgba(255, 255, 255, 0.16);
+      --text: #f4f7fb;
+      --text-muted: rgba(244, 247, 251, 0.7);
+      --text-soft: rgba(244, 247, 251, 0.48);
+      --accent: #86c4ff;
+      --accent-strong: #4f9fff;
+      --accent-soft: rgba(134, 196, 255, 0.14);
+      --accent-glow: rgba(79, 159, 255, 0.24);
+      --success: #7fd9c1;
+      --shadow: 0 30px 90px rgba(0, 0, 0, 0.35);
       --radius-xl: 36px;
-      --shadow-soft: 0 18px 52px rgba(0, 0, 0, 0.18);
-      --shadow-card: 0 24px 70px rgba(0, 0, 0, 0.22);
-      --font: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      --radius-lg: 28px;
+      --radius-md: 22px;
+      --radius-sm: 16px;
+      --frame: min(1240px, calc(100vw - 56px));
+      --font-body: "Manrope", -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-display: "Space Grotesk", -apple-system, BlinkMacSystemFont, sans-serif;
+      --header-height: 74px;
+      --section-space: 136px;
     }
 
     html {
       scroll-behavior: smooth;
+      scroll-padding-top: 96px;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
 
     body {
-      font-family: var(--font);
-      background: var(--bg-deep);
-      color: var(--text-primary);
-      line-height: 1.6;
+      margin: 0;
+      font-family: var(--font-body);
+      color: var(--text);
+      background:
+        radial-gradient(circle at 12% 16%, rgba(79, 159, 255, 0.18), transparent 30%),
+        radial-gradient(circle at 82% 24%, rgba(134, 196, 255, 0.12), transparent 34%),
+        radial-gradient(circle at 54% 82%, rgba(127, 217, 193, 0.08), transparent 28%),
+        linear-gradient(180deg, #090d14 0%, #06090f 42%, #04060b 100%);
+      min-height: 100vh;
       overflow-x: hidden;
     }
 
-    /* ================================================================
-       Ambient Background
-       ================================================================ */
-    .ambient {
+    body::before {
+      content: "";
       position: fixed;
       inset: 0;
-      z-index: -1;
-      overflow: hidden;
       pointer-events: none;
+      background:
+        linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+      background-size: 84px 84px;
+      mask-image: radial-gradient(circle at center, black 26%, transparent 100%);
+      opacity: 0.28;
     }
 
-    .ambient-orb {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(120px);
-      opacity: 0.5;
-      animation: float 20s ease-in-out infinite;
-    }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; }
 
-    .ambient-orb:nth-child(1) {
-      width: 600px; height: 600px;
-      background: rgba(0, 122, 255, 0.12);
-      top: -200px; left: -100px;
-      animation-delay: 0s;
-    }
-
-    .ambient-orb:nth-child(2) {
-      width: 500px; height: 500px;
-      background: rgba(88, 86, 214, 0.1);
-      top: 40%; right: -150px;
-      animation-delay: -7s;
-      animation-duration: 25s;
-    }
-
-    .ambient-orb:nth-child(3) {
-      width: 400px; height: 400px;
-      background: rgba(0, 199, 190, 0.08);
-      bottom: -100px; left: 30%;
-      animation-delay: -14s;
-      animation-duration: 22s;
-    }
-
-    @keyframes float {
-      0%, 100% { transform: translate(0, 0) scale(1); }
-      33% { transform: translate(30px, -20px) scale(1.05); }
-      66% { transform: translate(-20px, 15px) scale(0.95); }
-    }
-
-    /* ================================================================
-       Glass Card
-       ================================================================ */
-    .glass {
-      background: var(--glass-bg);
-      border: 1px solid var(--glass-border);
-      backdrop-filter: blur(40px) saturate(1.4);
-      -webkit-backdrop-filter: blur(40px) saturate(1.4);
-      border-radius: var(--radius-md);
-      transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
-    }
-
-    .glass:hover {
-      border-color: var(--glass-highlight);
-      box-shadow: 0 8px 40px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255,255,255,0.06);
-    }
-
-    /* ================================================================
-       Layout
-       ================================================================ */
-    .container {
-      max-width: 1120px;
+    .frame {
+      width: var(--frame);
       margin: 0 auto;
-      padding: 0 24px;
     }
 
-    section {
-      padding: 80px 0;
-    }
-
-    /* ================================================================
-       Navigation
-       ================================================================ */
-    nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 100;
-      padding: 0 24px;
-      transition: background 0.3s, backdrop-filter 0.3s;
-    }
-
-    nav.scrolled {
-      background: rgba(5, 9, 19, 0.72);
-      backdrop-filter: blur(30px) saturate(1.5);
-      -webkit-backdrop-filter: blur(30px) saturate(1.5);
-      border-bottom: 1px solid var(--divider);
-    }
-
-    .nav-inner {
-      max-width: 1120px;
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 64px;
-    }
-
-    .nav-brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      text-decoration: none;
-      color: var(--text-primary);
-    }
-
-    .nav-brand img {
-      width: 36px;
-      height: 36px;
-      border-radius: 8px;
-    }
-
-    .nav-brand span {
-      font-weight: 600;
-      font-size: 16px;
-      letter-spacing: -0.01em;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 32px;
-      list-style: none;
-    }
-
-    .nav-links a {
-      color: var(--text-secondary);
-      text-decoration: none;
-      font-size: 14px;
-      font-weight: 500;
-      transition: color 0.2s;
-    }
-
-    .nav-links a:hover {
-      color: var(--text-primary);
-    }
-
-    /* ================================================================
-       Hero
-       ================================================================ */
-    .hero {
-      padding-top: 172px;
-      padding-bottom: 112px;
-      text-align: center;
-      position: relative;
-    }
-
-    .hero::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: var(--gradient-hero);
-      pointer-events: none;
-    }
-
-    .hero-icon {
-      width: 120px;
-      height: 120px;
-      display: block;
-      border-radius: 28px;
-      margin: 0 auto 32px;
-      box-shadow:
-        0 0 0 1px rgba(255,255,255,0.08),
-        0 20px 60px rgba(0, 122, 255, 0.2),
-        0 0 120px rgba(0, 122, 255, 0.1);
-      animation: iconGlow 4s ease-in-out infinite alternate;
-    }
-
-    @keyframes iconGlow {
-      0% { box-shadow: 0 0 0 1px rgba(255,255,255,0.08), 0 20px 60px rgba(0, 122, 255, 0.15), 0 0 80px rgba(0, 122, 255, 0.08); }
-      100% { box-shadow: 0 0 0 1px rgba(255,255,255,0.12), 0 20px 80px rgba(0, 122, 255, 0.25), 0 0 120px rgba(0, 122, 255, 0.12); }
-    }
-
-    .hero h1 {
-      font-size: clamp(36px, 6vw, 56px);
-      font-weight: 800;
-      letter-spacing: -0.03em;
-      line-height: 1.1;
-      margin-bottom: 16px;
-      max-width: 980px;
-      margin-left: auto;
-      margin-right: auto;
-      background: linear-gradient(180deg, #ffffff 0%, rgba(255,255,255,0.7) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .hero p {
-      font-size: clamp(16px, 2.5vw, 20px);
-      color: var(--text-secondary);
-      max-width: 700px;
-      margin: 0 auto 24px;
-      line-height: 1.62;
-    }
-
-    .hero-kicker {
+    .eyebrow {
       display: inline-flex;
       align-items: center;
       gap: 10px;
-      padding: 8px 16px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 28px;
+      height: 1px;
+      background: linear-gradient(90deg, rgba(134, 196, 255, 0.12), rgba(134, 196, 255, 0.9));
+    }
+
+    .glass-plane {
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02)),
+        var(--surface);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(26px) saturate(130%);
+      -webkit-backdrop-filter: blur(26px) saturate(130%);
+    }
+
+    .site-nav {
+      position: fixed;
+      inset: 0 0 auto;
+      z-index: 100;
+      transition: background 220ms ease, border-color 220ms ease, backdrop-filter 220ms ease;
+    }
+
+    .site-nav.scrolled {
+      background: rgba(7, 11, 17, 0.74);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(24px) saturate(140%);
+      -webkit-backdrop-filter: blur(24px) saturate(140%);
+    }
+
+    .nav-inner {
+      width: var(--frame);
+      margin: 0 auto;
+      min-height: var(--header-height);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 28px;
+    }
+
+    .nav-brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+      min-width: 0;
+    }
+
+    .nav-brand img {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      box-shadow:
+        0 0 0 1px rgba(255, 255, 255, 0.12),
+        0 16px 34px rgba(79, 159, 255, 0.14);
+    }
+
+    .nav-brand-copy {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      min-width: 0;
+    }
+
+    .nav-brand-copy strong {
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--text);
+    }
+
+    .nav-brand-copy span {
+      font-size: 12px;
+      color: var(--text-soft);
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      padding: 0;
+      margin: 0;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+      transition: color 180ms ease;
+    }
+
+    .nav-links a:hover,
+    .nav-links a:focus-visible {
+      color: var(--text);
+    }
+
+    .nav-cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 42px;
+      padding: 0 18px;
       border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.04);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      color: var(--text);
+      transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+    }
+
+    .nav-cta:hover,
+    .nav-cta:focus-visible {
+      transform: translateY(-1px);
+      border-color: rgba(134, 196, 255, 0.32);
+      background: rgba(134, 196, 255, 0.08);
+    }
+
+    .hero {
+      position: relative;
+      min-height: 100svh;
+      display: flex;
+      align-items: center;
+      padding: calc(var(--header-height) + 48px) 0 64px;
+      overflow: hidden;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 18% auto auto 58%;
+      width: 42vw;
+      height: 42vw;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(79, 159, 255, 0.22), transparent 68%);
+      filter: blur(10px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .hero-grid {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(420px, 0.95fr);
+      gap: 56px;
+      align-items: center;
+    }
+
+    .hero-copy {
+      max-width: 620px;
+    }
+
+    .headline {
+      margin: 18px 0 18px;
+      font-family: var(--font-display);
+      font-size: clamp(48px, 7vw, 92px);
+      line-height: 0.95;
+      letter-spacing: -0.05em;
+      font-weight: 700;
+      text-wrap: balance;
+    }
+
+    .headline span {
+      display: block;
+      color: rgba(244, 247, 251, 0.76);
+    }
+
+    .hero-lead {
+      max-width: 580px;
+      margin: 0 0 30px;
+      font-size: clamp(18px, 2vw, 22px);
+      line-height: 1.6;
+      color: var(--text-muted);
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-bottom: 28px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 54px;
+      padding: 0 24px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease, border-color 180ms ease;
+    }
+
+    .button:hover,
+    .button:focus-visible {
+      transform: translateY(-1px);
+    }
+
+    .button-primary {
+      color: #06101e;
+      background: linear-gradient(135deg, #dff0ff 0%, #86c4ff 58%, #5eabff 100%);
+      box-shadow: 0 16px 44px rgba(79, 159, 255, 0.28);
+    }
+
+    .button-secondary {
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.03);
+      border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .button-secondary:hover,
+    .button-secondary:focus-visible {
+      border-color: rgba(134, 196, 255, 0.28);
+      background: rgba(134, 196, 255, 0.08);
+    }
+
+    .hero-proof {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin: 0 0 18px;
+      padding: 0;
+      list-style: none;
+    }
+
+    .hero-proof li {
+      padding: 16px 0 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .hero-proof strong {
+      display: block;
+      margin-bottom: 4px;
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      color: var(--text);
+    }
+
+    .hero-proof span {
+      display: block;
+      font-size: 12px;
+      line-height: 1.4;
+      color: var(--text-soft);
+    }
+
+    .hero-stage {
+      position: relative;
+      perspective: 1200px;
+      --hero-shift-x: 0px;
+      --hero-shift-y: 0px;
+    }
+
+    .stage-panel {
+      position: relative;
+      overflow: hidden;
+      padding: 26px;
+      border-radius: var(--radius-xl);
+      transform: translate3d(var(--hero-shift-x), var(--hero-shift-y), 0);
+      transition: transform 220ms ease;
+    }
+
+    .stage-panel::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 30% 24%, rgba(134, 196, 255, 0.16), transparent 38%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent 42%);
+      pointer-events: none;
+    }
+
+    .stage-topline {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 22px;
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-soft);
+    }
+
+    .stage-core {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      place-items: center;
+      min-height: 250px;
+      margin-bottom: 26px;
+      isolation: isolate;
+    }
+
+    .stage-core::before,
+    .stage-core::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.02);
+    }
+
+    .stage-core::before {
+      width: 280px;
+      height: 280px;
+    }
+
+    .stage-core::after {
+      width: 184px;
+      height: 184px;
+      border-color: rgba(134, 196, 255, 0.18);
+    }
+
+    .stage-logo-shell {
+      position: relative;
+      width: 144px;
+      height: 144px;
+      border-radius: 34px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow:
+        0 0 0 1px rgba(255, 255, 255, 0.04),
+        0 28px 80px rgba(79, 159, 255, 0.18);
+    }
+
+    .stage-logo-shell img {
+      width: 104px;
+      height: 104px;
+      border-radius: 24px;
+      box-shadow:
+        0 0 0 1px rgba(255, 255, 255, 0.12),
+        0 18px 48px rgba(79, 159, 255, 0.22);
+    }
+
+    .stage-grid {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .stage-block {
+      padding: 16px 16px 18px;
+      border-radius: var(--radius-sm);
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .stage-block span {
+      display: block;
+      margin-bottom: 7px;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-soft);
+    }
+
+    .stage-block strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--text);
+    }
+
+    .stage-block p {
+      margin: 0;
+      font-size: 12px;
+      line-height: 1.45;
+      color: var(--text-muted);
+    }
+
+    .stage-foot {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      font-size: 13px;
+      line-height: 1.7;
+      color: var(--text-soft);
+    }
+
+    .section {
+      padding: var(--section-space) 0;
+    }
+
+    .section-shell {
+      display: grid;
+      grid-template-columns: minmax(240px, 0.34fr) minmax(0, 0.66fr);
+      gap: 52px;
+      align-items: start;
+    }
+
+    .section-lockup {
+      position: sticky;
+      top: 108px;
+      align-self: start;
+    }
+
+    .section-title {
+      margin: 18px 0 14px;
+      font-family: var(--font-display);
+      font-size: clamp(34px, 4.5vw, 54px);
+      line-height: 1;
+      letter-spacing: -0.04em;
+      text-wrap: balance;
+    }
+
+    .section-copy {
+      max-width: 420px;
+      margin: 0;
+      font-size: 16px;
+      line-height: 1.75;
+      color: var(--text-muted);
+    }
+
+    .divider {
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.04));
+      margin: 32px 0 0;
+    }
+
+    .thesis-sheet,
+    .architecture-board,
+    .privacy-panel,
+    .support-panel {
+      border-radius: var(--radius-lg);
+      padding: 8px 28px;
+    }
+
+    .thesis-row,
+    .architecture-row,
+    .story-row {
+      display: grid;
+      grid-template-columns: 170px 1fr;
+      gap: 24px;
+      padding: 24px 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .thesis-row:first-child,
+    .architecture-row:first-child,
+    .story-row:first-child {
+      border-top: none;
+    }
+
+    .row-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      padding-top: 4px;
+    }
+
+    .row-body h3 {
+      margin: 0 0 10px;
+      font-family: var(--font-display);
+      font-size: 25px;
+      line-height: 1.04;
+      letter-spacing: -0.03em;
+      color: var(--text);
+    }
+
+    .row-body p {
+      margin: 0;
+      font-size: 15px;
+      line-height: 1.7;
+      color: var(--text-muted);
+    }
+
+    .row-points,
+    .timeline-body ul,
+    .support-links,
+    .privacy-points,
+    .faq-copy ul {
+      list-style: none;
+      margin: 16px 0 0;
+      padding: 0;
+    }
+
+    .row-points li,
+    .timeline-body li,
+    .support-links li,
+    .privacy-points li,
+    .faq-copy li {
+      position: relative;
+      padding-left: 18px;
+      margin-top: 8px;
+      font-size: 14px;
+      line-height: 1.65;
+      color: var(--text-soft);
+    }
+
+    .row-points li::before,
+    .timeline-body li::before,
+    .support-links li::before,
+    .privacy-points li::before,
+    .faq-copy li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 10px;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: linear-gradient(180deg, var(--accent), var(--accent-strong));
+      opacity: 0.9;
+    }
+
+    .architecture-board {
+      padding-bottom: 18px;
+    }
+
+    .architecture-row {
+      grid-template-columns: 190px 1fr;
+    }
+
+    .architecture-row strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 18px;
+      letter-spacing: -0.02em;
+      color: var(--text);
+    }
+
+    .architecture-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .architecture-tags span,
+    .timeline-version,
+    .faq-tag {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 28px;
+      padding: 0 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.035);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-soft);
+    }
+
+    .quality-strip {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 22px;
+    }
+
+    .quality-item {
+      padding: 18px 16px;
+      border-radius: var(--radius-sm);
+      background: rgba(255, 255, 255, 0.025);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .quality-item strong {
+      display: block;
+      margin-bottom: 6px;
+      font-family: var(--font-display);
+      font-size: 26px;
+      letter-spacing: -0.04em;
+      color: var(--text);
+    }
+
+    .quality-item span {
+      font-size: 13px;
+      line-height: 1.55;
+      color: var(--text-soft);
+    }
+
+    .story-stream {
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .story-row .row-body h3 {
+      margin-bottom: 8px;
+    }
+
+    .timeline-wrap {
+      position: relative;
+      padding-left: 34px;
+    }
+
+    .timeline-wrap::before {
+      content: "";
+      position: absolute;
+      top: 8px;
+      bottom: 8px;
+      left: 8px;
+      width: 1px;
+      background: linear-gradient(180deg, rgba(134, 196, 255, 0.85), rgba(255, 255, 255, 0.05));
+    }
+
+    .timeline-entry {
+      position: relative;
+      padding: 0 0 34px 34px;
+    }
+
+    .timeline-entry:last-child {
+      padding-bottom: 0;
+    }
+
+    .timeline-entry::before {
+      content: "";
+      position: absolute;
+      left: -1px;
+      top: 8px;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: linear-gradient(180deg, #c8e4ff, var(--accent-strong));
+      box-shadow: 0 0 0 8px rgba(79, 159, 255, 0.09);
+    }
+
+    .timeline-meta {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px 12px;
+      margin-bottom: 12px;
+    }
+
+    .timeline-date {
       font-size: 12px;
       font-weight: 700;
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      color: var(--accent-2);
-      background: rgba(10, 132, 255, 0.1);
-      border: 1px solid rgba(100, 210, 255, 0.14);
-      margin-bottom: 24px;
+      color: var(--text-soft);
     }
 
-    .hero-kicker::before {
-      content: '';
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      box-shadow: 0 0 18px rgba(100, 210, 255, 0.4);
+    .timeline-body h3 {
+      margin: 0 0 10px;
+      font-family: var(--font-display);
+      font-size: 28px;
+      line-height: 1.02;
+      letter-spacing: -0.03em;
+      color: var(--text);
     }
 
-    .hero-cta {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-top: 32px;
-      margin-bottom: 18px;
-    }
-
-    .hero-cta a {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      padding: 14px 32px;
-      background: var(--glass-bg);
-      border: 1px solid var(--glass-border);
-      border-radius: var(--radius-lg);
-      color: var(--text-primary);
-      font-size: 1rem;
-      font-weight: 600;
-      text-decoration: none;
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      transition: all 0.3s ease;
-      box-shadow: var(--shadow-soft);
-    }
-
-    .hero-cta a:hover {
-      background: var(--accent-soft);
-      border-color: var(--accent);
-      box-shadow: 0 0 24px var(--accent-glow);
-      transform: translateY(-2px);
-    }
-
-    .hero-cta a svg {
-      width: 22px;
-      height: 22px;
-      fill: currentColor;
-    }
-
-    .hero-badges {
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .hero-status {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      padding: 13px 18px;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.035);
-      border: 1px solid var(--glass-border);
-      color: var(--text-secondary);
-      font-size: 13px;
-      font-weight: 600;
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-    }
-
-    .hero-status-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      box-shadow: 0 0 18px rgba(100, 210, 255, 0.45);
-    }
-
-    .hero-note {
-      max-width: 720px;
-      margin: 0 auto;
-      font-size: 13px;
-      line-height: 1.65;
+    .timeline-body p {
+      margin: 0;
+      max-width: 700px;
+      font-size: 15px;
+      line-height: 1.7;
       color: var(--text-muted);
     }
 
-    .hero-note strong {
-      color: var(--text-primary);
-      font-weight: 700;
+    .timeline-body ul {
+      margin-top: 14px;
     }
 
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 8px 16px;
-      border-radius: 100px;
-      font-size: 13px;
-      font-weight: 500;
-      background: var(--glass-bg);
-      border: 1px solid var(--glass-border);
-      color: rgba(246, 248, 251, 0.8);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
+    .faq-list {
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
     }
 
-    .badge-accent {
-      background: rgba(10, 132, 255, 0.12);
-      border-color: rgba(100, 210, 255, 0.2);
-      color: var(--accent-2);
+    .faq-item {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 0;
     }
 
-    /* ================================================================
-       Features
-       ================================================================ */
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 18px;
-    }
-
-    .feature-card {
-      padding: 30px;
-      position: relative;
-      overflow: hidden;
-      background: linear-gradient(180deg, rgba(255,255,255,0.035), rgba(255,255,255,0.02));
-      box-shadow: var(--shadow-card);
-    }
-
-    .feature-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
-    }
-
-    .feature-icon {
-      width: 52px;
-      height: 52px;
-      border-radius: 16px;
+    .faq-item summary {
+      list-style: none;
+      cursor: pointer;
+      padding: 24px 0;
       display: flex;
       align-items: center;
-      justify-content: center;
-      margin-bottom: 20px;
-      background: linear-gradient(180deg, rgba(0, 122, 255, 0.16), rgba(100, 210, 255, 0.08));
-      border: 1px solid rgba(100, 210, 255, 0.18);
-      color: #9ccfff;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.08);
-    }
-
-    .feature-icon svg,
-    .privacy-icon svg {
-      width: 24px;
-      height: 24px;
-      stroke: currentColor;
-      stroke-width: 1.8;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      fill: none;
-    }
-
-    .feature-card h3 {
+      justify-content: space-between;
+      gap: 18px;
       font-size: 18px;
       font-weight: 700;
-      margin-bottom: 10px;
-      letter-spacing: -0.01em;
-    }
-
-    .feature-card p {
-      font-size: 14px;
-      color: var(--text-secondary);
-      line-height: 1.6;
-    }
-
-    .feature-card p strong {
-      color: var(--text-primary);
-    }
-
-    /* ================================================================
-       Section Headers
-       ================================================================ */
-    .section-header {
-      text-align: center;
-      margin-bottom: 56px;
-    }
-
-    .section-label {
-      display: inline-block;
-      font-size: 12px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--accent);
-      margin-bottom: 12px;
-    }
-
-    .section-header h2 {
-      font-size: clamp(28px, 4vw, 40px);
-      font-weight: 700;
       letter-spacing: -0.02em;
-      line-height: 1.15;
-      margin-bottom: 12px;
+      color: var(--text);
     }
 
-    .section-header p {
-      font-size: 16px;
-      color: var(--text-secondary);
-      max-width: 620px;
-      margin: 0 auto;
+    .faq-item summary::-webkit-details-marker {
+      display: none;
     }
 
-    /* ================================================================
-       Spotlight
-       ================================================================ */
-    .spotlight-shell {
-      display: grid;
-      grid-template-columns: 1.12fr 0.88fr;
-      gap: 20px;
-      align-items: stretch;
-    }
-
-    .spotlight-panel {
-      padding: 34px;
-      position: relative;
-      overflow: hidden;
-      box-shadow: var(--shadow-card);
-    }
-
-    .spotlight-panel::after {
-      content: '';
-      position: absolute;
-      inset: auto -10% -45% auto;
-      width: 280px;
-      height: 280px;
+    .faq-symbol {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 30px;
+      height: 30px;
       border-radius: 50%;
-      background: radial-gradient(circle, rgba(10, 132, 255, 0.2), transparent 70%);
-      filter: blur(24px);
-      pointer-events: none;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: var(--accent);
+      flex-shrink: 0;
+      transition: transform 180ms ease, background 180ms ease;
     }
 
-    .spotlight-copy h3 {
-      font-size: clamp(26px, 4vw, 34px);
-      font-weight: 800;
-      line-height: 1.12;
-      letter-spacing: -0.03em;
-      margin-bottom: 14px;
+    .faq-item[open] .faq-symbol {
+      transform: rotate(45deg);
+      background: rgba(134, 196, 255, 0.08);
     }
 
-    .spotlight-copy p {
-      color: var(--text-secondary);
+    .faq-copy {
+      padding: 0 0 22px;
+      max-width: 760px;
+      color: var(--text-muted);
       font-size: 15px;
       line-height: 1.75;
     }
 
-    .spotlight-list {
-      list-style: none;
-      margin-top: 28px;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-
-    .spotlight-list li {
-      display: flex;
-      gap: 12px;
-      color: var(--text-secondary);
-      font-size: 14px;
-      line-height: 1.65;
-    }
-
-    .spotlight-list-mark {
-      width: 24px;
-      height: 24px;
-      flex-shrink: 0;
-      border-radius: 50%;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      border: 1px solid rgba(100, 210, 255, 0.18);
-      background: rgba(0, 122, 255, 0.1);
-      color: var(--accent-2);
-      margin-top: 1px;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.07);
-    }
-
-    .spotlight-list-mark svg {
-      width: 13px;
-      height: 13px;
-      stroke: currentColor;
-      stroke-width: 2;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      fill: none;
-    }
-
-    .spotlight-grid {
-      display: grid;
-      gap: 16px;
-    }
-
-    .spotlight-card {
-      padding: 24px;
-      border-radius: var(--radius-md);
-      background: linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.02));
-      border: 1px solid var(--glass-border);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .spotlight-card::before {
-      content: '';
-      position: absolute;
-      inset: 0 auto auto 0;
-      width: 100%;
-      height: 1px;
-      background: linear-gradient(90deg, rgba(100,210,255,0.2), transparent 60%);
-    }
-
-    .spotlight-eyebrow {
-      display: inline-flex;
-      font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--accent-2);
-      margin-bottom: 8px;
-    }
-
-    .spotlight-card h3 {
-      font-size: 18px;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      margin-bottom: 8px;
-    }
-
-    .spotlight-card p {
-      font-size: 14px;
-      line-height: 1.65;
-      color: var(--text-secondary);
-    }
-
-    /* ================================================================
-       FAQ
-       ================================================================ */
-    .faq-list {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      max-width: 720px;
-      margin: 0 auto;
-    }
-
-    .faq-item {
-      padding: 0;
-      overflow: hidden;
-    }
-
-    .faq-question {
-      width: 100%;
-      background: none;
-      border: none;
-      color: var(--text-primary);
-      font-family: var(--font);
-      font-size: 15px;
-      font-weight: 600;
-      text-align: left;
-      padding: 20px 24px;
-      cursor: pointer;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 16px;
-      transition: color 0.2s;
-    }
-
-    .faq-question:hover {
-      color: #5ac8fa;
-    }
-
-    .faq-chevron {
-      flex-shrink: 0;
-      width: 20px;
-      height: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: transform 0.3s ease;
-      color: var(--text-muted);
-    }
-
-    .faq-item.open .faq-chevron {
-      transform: rotate(180deg);
-    }
-
-    .faq-answer {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.35s ease, padding 0.35s ease;
-    }
-
-    .faq-item.open .faq-answer {
-      max-height: 400px;
-    }
-
-    .faq-answer-inner {
-      padding: 0 24px 20px;
-      font-size: 14px;
-      color: var(--text-secondary);
-      line-height: 1.7;
-    }
-
-    .faq-answer-inner a {
-      color: var(--accent);
-      text-decoration: none;
-    }
-
-    .faq-answer-inner a:hover {
-      text-decoration: underline;
-    }
-
-    /* ================================================================
-       Privacy
-       ================================================================ */
-    .privacy-card {
-      padding: 48px;
-      max-width: 760px;
-      margin: 0 auto;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .privacy-card::before {
-      content: '';
-      position: absolute;
-      top: -1px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 200px;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(0, 122, 255, 0.4), transparent);
-    }
-
-    .privacy-icon {
-      width: 56px;
-      height: 56px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 18px;
-      margin-bottom: 24px;
-      background: linear-gradient(180deg, rgba(0, 122, 255, 0.14), rgba(100, 210, 255, 0.08));
-      border: 1px solid rgba(100, 210, 255, 0.18);
-      color: #9ccfff;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.08);
-    }
-
-    .privacy-card h3 {
-      font-size: 22px;
-      font-weight: 600;
-      margin-bottom: 16px;
-      letter-spacing: -0.01em;
+    .privacy-panel {
+      padding-bottom: 28px;
     }
 
     .privacy-points {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
+      margin-top: 0;
     }
 
     .privacy-points li {
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      font-size: 14px;
-      color: var(--text-secondary);
-      line-height: 1.6;
+      margin-top: 14px;
+      padding-left: 20px;
+      font-size: 15px;
     }
 
-    .privacy-check {
-      flex-shrink: 0;
-      width: 22px;
-      height: 22px;
-      border-radius: 50%;
-      background: rgba(52, 199, 89, 0.12);
-      border: 1px solid rgba(52, 199, 89, 0.25);
-      display: flex;
+    .privacy-points strong {
+      color: var(--text);
+    }
+
+    .support-panel {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 26px;
       align-items: center;
-      justify-content: center;
-      color: #34C759;
-      font-size: 12px;
-      margin-top: 1px;
+      padding-top: 28px;
+      padding-bottom: 28px;
     }
 
-    /* ================================================================
-       Contact / Support
-       ================================================================ */
-    .contact-card {
-      text-align: center;
-      padding: 56px 40px;
-      max-width: 720px;
-      margin: 0 auto;
-      position: relative;
-      overflow: hidden;
+    .support-panel h3 {
+      margin: 0 0 10px;
+      font-family: var(--font-display);
+      font-size: 34px;
+      line-height: 1;
+      letter-spacing: -0.04em;
     }
 
-    .contact-card::before {
-      content: '';
-      position: absolute;
-      inset: -1px;
-      border-radius: var(--radius-md);
-      padding: 1px;
-      background: linear-gradient(135deg, rgba(0, 122, 255, 0.2), transparent 50%, rgba(88, 86, 214, 0.2));
-      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-      -webkit-mask-composite: xor;
-      mask-composite: exclude;
-      pointer-events: none;
+    .support-panel p {
+      margin: 0;
+      max-width: 620px;
+      font-size: 16px;
+      line-height: 1.7;
+      color: var(--text-muted);
     }
 
-    .contact-card h3 {
-      font-size: 22px;
-      font-weight: 600;
-      margin-bottom: 12px;
+    .support-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 20px;
     }
 
-    .contact-card p {
-      font-size: 14px;
-      color: var(--text-secondary);
-      margin-bottom: 28px;
-      line-height: 1.6;
+    .support-links li {
+      margin: 0;
+      padding: 0;
     }
 
-    .contact-email {
+    .support-links li::before {
+      display: none;
+    }
+
+    .support-links a {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      padding: 14px 28px;
-      border-radius: 100px;
-      background: var(--gradient-blue);
-      color: #fff;
-      font-size: 15px;
-      font-weight: 600;
+      justify-content: center;
+      min-height: 50px;
+      padding: 0 18px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.1);
       text-decoration: none;
-      transition: transform 0.2s, box-shadow 0.2s;
-      box-shadow: 0 4px 20px var(--accent-glow);
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+      transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
     }
 
-    .contact-email:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 30px var(--accent-glow);
+    .support-links a:hover,
+    .support-links a:focus-visible {
+      transform: translateY(-1px);
+      border-color: rgba(134, 196, 255, 0.24);
+      background: rgba(134, 196, 255, 0.08);
     }
 
-    /* ================================================================
-       Footer
-       ================================================================ */
-    footer {
-      padding: 40px 0;
-      border-top: 1px solid var(--glass-border);
+    .footer {
+      padding: 44px 0 56px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
     }
 
     .footer-inner {
       display: flex;
       justify-content: space-between;
+      gap: 20px;
       align-items: center;
       flex-wrap: wrap;
-      gap: 16px;
     }
 
     .footer-brand {
-      display: flex;
+      display: inline-flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
+      min-width: 0;
     }
 
     .footer-brand img {
-      width: 28px;
-      height: 28px;
-      border-radius: 6px;
+      width: 32px;
+      height: 32px;
+      border-radius: 9px;
     }
 
-    .footer-brand span {
-      font-size: 14px;
-      font-weight: 500;
-      color: var(--text-secondary);
-    }
-
-    .footer-copy {
-      font-size: 13px;
-      color: var(--text-muted);
-    }
-
-    /* ================================================================
-       Changelog
-       ================================================================ */
-    .changelog-list {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      max-width: 720px;
-      margin: 0 auto;
-    }
-
-    .changelog-entry {
-      padding: 32px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .changelog-entry::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
-    }
-
-    .changelog-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 12px;
-    }
-
-    .changelog-version {
-      font-size: 20px;
-      font-weight: 700;
+    .footer-brand strong {
+      display: block;
+      font-family: var(--font-display);
+      font-size: 15px;
       letter-spacing: -0.02em;
-      background: linear-gradient(135deg, #ffffff, rgba(255,255,255,0.7));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      color: var(--text);
     }
 
-    .changelog-date {
+    .footer-brand span,
+    .footer-note {
       font-size: 13px;
-      color: var(--text-muted);
-      font-weight: 500;
+      line-height: 1.6;
+      color: var(--text-soft);
     }
 
-    .changelog-tag {
-      display: inline-block;
-      font-size: 11px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      padding: 4px 12px;
-      border-radius: 100px;
-      margin-bottom: 16px;
-    }
-
-    .changelog-tag-major {
-      background: rgba(0, 122, 255, 0.15);
-      border: 1px solid rgba(0, 122, 255, 0.25);
-      color: #5ac8fa;
-    }
-
-    .changelog-tag-minor {
-      background: rgba(52, 199, 89, 0.12);
-      border: 1px solid rgba(52, 199, 89, 0.2);
-      color: #34C759;
-    }
-
-    .changelog-tag-initial {
-      background: rgba(88, 86, 214, 0.12);
-      border: 1px solid rgba(88, 86, 214, 0.2);
-      color: #BF5AF2;
-    }
-
-    .changelog-body {
-      font-size: 14px;
-      color: var(--text-secondary);
-      line-height: 1.7;
-    }
-
-    .changelog-body ul {
-      list-style: none;
-      padding: 0;
-      margin: 0 0 16px;
-    }
-
-    .changelog-body ul:last-child {
-      margin-bottom: 0;
-    }
-
-    .changelog-body li {
-      position: relative;
-      padding-left: 20px;
-      margin-bottom: 6px;
-    }
-
-    .changelog-body li::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 9px;
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--accent);
-      opacity: 0.6;
-    }
-
-    .changelog-subtitle {
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--text-primary);
-      margin: 16px 0 8px;
-      letter-spacing: -0.01em;
-    }
-
-    .changelog-subtitle:first-child {
-      margin-top: 0;
-    }
-
-    .changelog-body code {
-      font-family: 'SF Mono', 'Fira Code', monospace;
-      font-size: 12px;
-      padding: 2px 6px;
-      border-radius: 4px;
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      color: #5ac8fa;
-    }
-
-    .changelog-body strong {
-      color: var(--text-primary);
-      font-weight: 600;
-    }
-
-    /* ================================================================
-       Responsive
-       ================================================================ */
-    @media (max-width: 640px) {
-      section { padding: 60px 0; }
-      .hero { padding-top: 128px; padding-bottom: 72px; }
-      .hero-icon { width: 88px; height: 88px; border-radius: 22px; }
-      .nav-links { display: none; }
-      .features-grid { grid-template-columns: 1fr; }
-      .hero-cta { justify-content: center; }
-      .hero-cta a, .hero-status { width: 100%; justify-content: center; }
-      .hero h1 { max-width: 100%; }
-      .hero p, .hero-note { max-width: 100%; }
-      .hero-note { font-size: 12px; }
-      .privacy-card, .contact-card, .changelog-entry, .feature-card, .spotlight-panel { padding: 24px 20px; }
-      .section-header { margin-bottom: 40px; }
-    }
-
-    @media (max-width: 920px) {
-      .features-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .spotlight-shell { grid-template-columns: 1fr; }
-    }
-
-    /* ================================================================
-       Scroll Animations
-       ================================================================ */
     .reveal {
       opacity: 0;
-      transform: translateY(24px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
+      transform: translateY(28px);
+      transition: opacity 620ms ease, transform 620ms ease;
     }
 
     .reveal.visible {
       opacity: 1;
       transform: translateY(0);
     }
+
+    @media (max-width: 1100px) {
+      :root {
+        --frame: min(100vw - 40px, 1120px);
+        --section-space: 112px;
+      }
+
+      .hero-grid,
+      .section-shell {
+        grid-template-columns: 1fr;
+      }
+
+      .section-lockup {
+        position: static;
+      }
+
+      .hero-copy {
+        max-width: 100%;
+      }
+
+      .hero-stage {
+        max-width: 760px;
+      }
+
+      .support-panel {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 840px) {
+      :root {
+        --frame: calc(100vw - 32px);
+        --section-space: 92px;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .headline {
+        font-size: clamp(42px, 15vw, 72px);
+      }
+
+      .hero-proof,
+      .quality-strip,
+      .stage-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .thesis-row,
+      .architecture-row,
+      .story-row {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+
+      .timeline-wrap {
+        padding-left: 28px;
+      }
+
+      .timeline-entry {
+        padding-left: 28px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      :root {
+        --frame: calc(100vw - 24px);
+        --section-space: 72px;
+        --header-height: 68px;
+      }
+
+      .hero {
+        min-height: auto;
+        padding-top: calc(var(--header-height) + 36px);
+      }
+
+      .nav-inner {
+        gap: 16px;
+      }
+
+      .nav-brand img {
+        width: 34px;
+        height: 34px;
+      }
+
+      .nav-brand-copy span {
+        display: none;
+      }
+
+      .nav-cta {
+        min-height: 38px;
+        padding: 0 14px;
+      }
+
+      .hero-actions,
+      .support-links {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .hero-proof,
+      .quality-strip {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .stage-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .stage-panel,
+      .thesis-sheet,
+      .architecture-board,
+      .privacy-panel,
+      .support-panel {
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+
+      .stage-core {
+        min-height: 220px;
+      }
+
+      .stage-core::before {
+        width: 240px;
+        height: 240px;
+      }
+
+      .stage-core::after {
+        width: 160px;
+        height: 160px;
+      }
+
+      .stage-logo-shell {
+        width: 128px;
+        height: 128px;
+      }
+
+      .stage-logo-shell img {
+        width: 92px;
+        height: 92px;
+      }
+
+      .section-title {
+        font-size: clamp(30px, 11vw, 44px);
+      }
+
+      .row-body h3,
+      .timeline-body h3,
+      .support-panel h3 {
+        font-size: 24px;
+      }
+
+      .faq-item summary {
+        font-size: 17px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      .reveal,
+      .reveal.visible,
+      .stage-panel,
+      .button,
+      .nav-cta,
+      .support-links a,
+      .faq-symbol {
+        transition: none;
+        transform: none;
+      }
+
+      .hero-stage {
+        --hero-shift-x: 0px;
+        --hero-shift-y: 0px;
+      }
+    }
   </style>
 </head>
 <body>
-
-  <!-- Ambient Background -->
-  <div class="ambient" aria-hidden="true">
-    <div class="ambient-orb"></div>
-    <div class="ambient-orb"></div>
-    <div class="ambient-orb"></div>
-  </div>
-
-  <!-- Navigation -->
-  <nav id="nav">
+  <header class="site-nav" id="top">
     <div class="nav-inner">
-      <a href="#" class="nav-brand">
-        <img src="icon.png" alt="GlassGPT" />
-        <span>GlassGPT</span>
+      <a class="nav-brand" href="#top">
+        <img src="icon.png" alt="GlassGPT logo" />
+        <div class="nav-brand-copy">
+          <strong>GlassGPT</strong>
+          <span>4.0 release era</span>
+        </div>
       </a>
-      <ul class="nav-links">
-        <li><a href="#features">Features</a></li>
-        <li><a href="#spotlight">Spotlight</a></li>
-        <li><a href="#changelog">Changelog</a></li>
-        <li><a href="#faq">FAQ</a></li>
-        <li><a href="#privacy">Privacy</a></li>
+      <ul class="nav-links" aria-label="Primary navigation">
+        <li><a href="#era">4.0</a></li>
+        <li><a href="#architecture">System</a></li>
+        <li><a href="#timeline">Timeline</a></li>
         <li><a href="#support">Support</a></li>
-        <li><a href="https://github.com/ljnpro/GlassGPT" target="_blank">Source Code ↗</a></li>
       </ul>
+      <a class="nav-cta" href="https://github.com/ljnpro/GlassGPT" target="_blank" rel="noopener">Source Code</a>
     </div>
-  </nav>
+  </header>
 
-  <!-- Hero -->
-  <section class="hero">
-    <div class="container">
-      <img src="icon.png" alt="GlassGPT icon" class="hero-icon" />
-      <h1>GlassGPT</h1>
-      <p>Use your own OpenAI API key, choose a cleaner network path, and handle generated files in a UI that feels at home on iPhone and iPad.</p>
-      <div class="hero-cta">
-        <a href="https://github.com/ljnpro/GlassGPT" target="_blank">
-          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-          View on GitHub
-        </a>
-        <span class="hero-status">
-          <span class="hero-status-dot" aria-hidden="true"></span>
-          v3.0.0 is currently in development
-        </span>
-      </div>
-      <div class="hero-badges">
-        <span class="badge badge-accent">GPT-5.4 Pro</span>
-        <span class="badge">Reasoning Control</span>
-        <span class="badge">Code Interpreter</span>
-        <span class="badge">PNG / JPG / PDF Preview</span>
-        <span class="badge">Generated File Caching</span>
-        <span class="badge">Cloudflare AI Gateway</span>
-        <span class="badge badge-accent">iOS 26 Liquid Glass</span>
-        <span class="badge badge-accent">v3.0.0 In Development</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- Features -->
-  <section id="features">
-    <div class="container">
-      <div class="section-header reveal">
-        <span class="section-label">Product Highlights</span>
-        <h2>A clearer view of what GlassGPT can do.</h2>
-        <p>GlassGPT is built for people who care about model control, resilient sessions, generated-file handling, and a UI that still feels genuinely native.</p>
-      </div>
-      <div class="features-grid">
-        <div class="feature-card glass reveal">
-          <div class="feature-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><path d="M9.5 4.5a3 3 0 0 1 5 2.2V7a3.5 3.5 0 0 1 2.5 3.35A3.5 3.5 0 0 1 15 13.5v.5a3 3 0 0 1-5.62 1.46A3 3 0 0 1 7 12.5 3 3 0 0 1 6 7a3 3 0 0 1 3.5-2.5Z"/><path d="M9 10h6"/><path d="M10 7.5h4"/><path d="M10 12.5h4"/><path d="M12 15v3"/></svg>
+  <main>
+    <section class="hero">
+      <div class="frame hero-grid">
+        <div class="hero-copy reveal">
+          <div class="eyebrow">GlassGPT 4.0 release era</div>
+          <h1 class="headline">
+            Native by design.
+            <span>Modular by default.</span>
+          </h1>
+          <p class="hero-lead">
+            A native SwiftUI chat client rebuilt around clear modules, actor-owned runtime, and steadier recovery.
+          </p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="https://github.com/ljnpro/GlassGPT" target="_blank" rel="noopener">View the source</a>
+            <a class="button button-secondary" href="#support">Contact support</a>
           </div>
-          <h3>Reasoning on your terms</h3>
-          <p>Choose between GPT-5.4 and GPT-5.4 Pro, tune reasoning effort, and keep the app oriented around power-user control instead of one fixed model preset.</p>
-        </div>
-        <div class="feature-card glass reveal">
-          <div class="feature-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><rect x="4" y="5" width="10" height="10" rx="3"/><path d="M10 9h10a2 2 0 0 1 0 10H9a3 3 0 0 1-3-3v-1"/></svg>
-          </div>
-          <h3>Native Liquid Glass styling</h3>
-          <p>The interface is designed around native iOS aesthetics, with Liquid Glass on modern systems and graceful fallback behavior where those materials are not available.</p>
-        </div>
-        <div class="feature-card glass reveal">
-          <div class="feature-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><path d="M4 7.5A2.5 2.5 0 0 1 6.5 5h11A2.5 2.5 0 0 1 20 7.5v9A2.5 2.5 0 0 1 17.5 19h-11A2.5 2.5 0 0 1 4 16.5Z"/><path d="M8 14l2.5-2.5L13 14l2-2 3 3"/><circle cx="9" cy="9.5" r="1.25"/></svg>
-          </div>
-          <h3>Multimodal input that respects iPhone formats</h3>
-          <p>Send photos with your prompts, including HEIC conversion on iPhone, so multimodal conversations do not feel like a bolted-on web wrapper.</p>
-        </div>
-        <div class="feature-card glass reveal">
-          <div class="feature-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><path d="M6 6h12"/><path d="M8.5 18 12 6l3.5 12"/><path d="M9.6 14h4.8"/><path d="M6 18h12"/></svg>
-          </div>
-          <h3>Readable output for technical work</h3>
-          <p>Markdown, LaTeX, code blocks, and streamed reasoning are all presented in a way that supports longer technical sessions instead of just simple chatbot replies.</p>
-        </div>
-        <div class="feature-card glass reveal">
-          <div class="feature-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><path d="m13 3-7 10h5l-1 8 8-11h-5l0-7Z"/></svg>
-          </div>
-          <h3>Recovery, retries, and generated-file resilience</h3>
-          <p>Streaming recovery, stalled response retries, and on-device caching mean both conversations and generated files are more likely to survive interruptions and temporary link expiry.</p>
-        </div>
-        <div class="feature-card glass reveal">
-          <div class="feature-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><path d="M12 3 5 6v5c0 4.5 2.6 7.9 7 10 4.4-2.1 7-5.5 7-10V6l-7-3Z"/><path d="M9.5 11.5 11.25 13.25 14.75 9.75"/></svg>
-          </div>
-          <h3>Private by default, configurable when needed</h3>
-          <p>Your API key and conversation history stay on device. Requests can follow the app&apos;s configured OpenAI or gateway route without turning GlassGPT into a data-collecting service.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Spotlight -->
-  <section id="spotlight">
-    <div class="container">
-      <div class="section-header reveal">
-        <span class="section-label">v3.0.0 Spotlight</span>
-        <h2>The current development line is about making file-heavy AI workflows feel native.</h2>
-        <p>v3.0.0 is still in development. The existing gateway and architecture work stays intact, and the current branch adds a clearer, more polished story around generated files and preview behavior.</p>
-      </div>
-      <div class="spotlight-shell">
-        <div class="spotlight-panel glass reveal">
-          <div class="spotlight-copy">
-            <h3>One branch, two layers of progress.</h3>
-            <p>The v3.0.0 changelog already captures the routing migration and relay removal work. This preview keeps that context, then folds in the newer file preview, cache, and viewer polish work that now sits on top of it.</p>
-          </div>
-          <ul class="spotlight-list">
+          <ul class="hero-proof" aria-label="Release proof points">
             <li>
-              <span class="spotlight-list-mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m5 12 4 4 10-10"/></svg></span>
-              <span><strong>Routing work remains visible.</strong> Cloudflare AI Gateway, health checks, and unified API routing stay part of the public story.</span>
+              <strong>4.5 to 4.10</strong>
+              <span>Native era</span>
             </li>
             <li>
-              <span class="spotlight-list-mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m5 12 4 4 10-10"/></svg></span>
-              <span><strong>Generated files become first-class.</strong> Images and PDFs now read like product capabilities, not implementation leftovers.</span>
+              <strong>16 modules</strong>
+              <span>Clear seams</span>
             </li>
             <li>
-              <span class="spotlight-list-mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m5 12 4 4 10-10"/></svg></span>
-              <span><strong>Support copy is more honest.</strong> Privacy and FAQ wording now matches the real gateway-aware architecture instead of older “direct only” language.</span>
+              <strong>1 runtime owner</strong>
+              <span>Actor-owned</span>
+            </li>
+            <li>
+              <strong>Release-grade</strong>
+              <span>Hard gates</span>
             </li>
           </ul>
         </div>
-        <div class="spotlight-grid">
-          <div class="spotlight-card glass reveal">
-            <span class="spotlight-eyebrow">Routing</span>
-            <h3>Cloudflare plus direct fallback</h3>
-            <p>The page now presents gateway routing as a serious reliability feature instead of a temporary experiment or hidden implementation detail.</p>
-          </div>
-          <div class="spotlight-card glass reveal">
-            <span class="spotlight-eyebrow">File Outputs</span>
-            <h3>Preview only where it helps</h3>
-            <p>PNG, JPG, JPEG, and PDF get dedicated handling, while everything else goes straight into the system share sheet for downstream workflows.</p>
-          </div>
-          <div class="spotlight-card glass reveal">
-            <span class="spotlight-eyebrow">Caching</span>
-            <h3>Separate image and document stores</h3>
-            <p>Generated files are preserved on device with independent image and document caches, making expired sandbox links much less painful in practice.</p>
-          </div>
-          <div class="spotlight-card glass reveal">
-            <span class="spotlight-eyebrow">Polish</span>
-            <h3>Theme-aware native viewers</h3>
-            <p>The development branch now includes more deliberate viewer UI, better save and share affordances, and cleaner support messaging around those experiences.</p>
+
+        <div class="hero-stage reveal">
+          <div class="stage-panel glass-plane" aria-label="Architecture overview visual">
+            <div class="stage-topline">
+              <span>4.0 architecture map</span>
+              <span>Apple-platform AI client</span>
+            </div>
+
+            <div class="stage-core">
+              <div class="stage-logo-shell">
+                <img src="icon.png" alt="GlassGPT icon" />
+              </div>
+            </div>
+
+            <div class="stage-grid">
+              <article class="stage-block">
+                <span>Surface</span>
+                <strong>NativeChatUI</strong>
+                <p>Chat, history, settings.</p>
+              </article>
+              <article class="stage-block">
+                <span>Composition</span>
+                <strong>Composition Root</strong>
+                <p>Production wiring only.</p>
+              </article>
+              <article class="stage-block">
+                <span>Application</span>
+                <strong>Presentation flow</strong>
+                <p>Focused stores and flows.</p>
+              </article>
+              <article class="stage-block">
+                <span>Runtime</span>
+                <strong>Recovery aware</strong>
+                <p>Actor plus evaluators.</p>
+              </article>
+              <article class="stage-block">
+                <span>Persistence</span>
+                <strong>Local first</strong>
+                <p>SwiftData and Keychain.</p>
+              </article>
+              <article class="stage-block">
+                <span>Transport</span>
+                <strong>Direct plus gateway</strong>
+                <p>Direct, gateway, files.</p>
+              </article>
+            </div>
+
+            <p class="stage-foot">
+              One runtime owner. One production root.
+            </p>
           </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Changelog -->
-  <section id="changelog">
-    <div class="container">
-      <div class="section-header reveal">
-        <span class="section-label">Changelog</span>
-        <h2>Full Changelog</h2>
-        <p>Release history and in-development notes for GlassGPT.</p>
+    <section class="section" id="era">
+      <div class="frame section-shell">
+        <div class="section-lockup reveal">
+          <div class="eyebrow">4.0 in four moves</div>
+          <h2 class="section-title">A shorter way to describe the release line.</h2>
+          <p class="section-copy">
+            Native rebuild. Clear seams. One runtime owner. Harder release gates.
+          </p>
+          <div class="divider"></div>
+        </div>
+
+        <div class="thesis-sheet glass-plane reveal">
+          <article class="thesis-row">
+            <div class="row-label">Native</div>
+            <div class="row-body">
+              <h3>SwiftUI from the start</h3>
+              <p>
+                The client was rebuilt in Swift, SwiftUI, and SwiftData.
+              </p>
+            </div>
+          </article>
+
+          <article class="thesis-row">
+            <div class="row-label">Modules</div>
+            <div class="row-body">
+              <h3>Clear package boundaries</h3>
+              <p>
+                UI, transport, persistence, and runtime stay separate as the app grows.
+              </p>
+            </div>
+          </article>
+
+          <article class="thesis-row">
+            <div class="row-label">Runtime</div>
+            <div class="row-body">
+              <h3>One owner for reply state</h3>
+              <p>
+                ReplySessionActor owns mutable reply state while evaluators keep decisions pure.
+              </p>
+            </div>
+          </article>
+
+          <article class="thesis-row">
+            <div class="row-label">Discipline</div>
+            <div class="row-body">
+              <h3>Shipping got stricter</h3>
+              <p>
+                CI, accessibility, docs, localization, and performance checks became part of the release contract.
+              </p>
+            </div>
+          </article>
+        </div>
       </div>
+    </section>
 
-      <div class="changelog-list">
-
-        <!-- v3.0.0 -->
-        <div class="changelog-entry glass reveal">
-          <div class="changelog-header">
-            <span class="changelog-version">v3.0.0</span>
-            <span class="changelog-date">March 13, 2026</span>
-          </div>
-          <div class="changelog-tag changelog-tag-major">Major Release &mdash; In Development</div>
-          <div class="changelog-body">
-            <p class="changelog-subtitle">Cloudflare AI Gateway</p>
-            <ul>
-              <li><strong>Replaced WebSocket relay with Cloudflare AI Gateway</strong> &mdash; All OpenAI API requests now route through Cloudflare&rsquo;s global edge network (300+ cities) for improved reliability and observability</li>
-              <li><strong>Gateway authentication</strong> &mdash; Requests authenticated via <code>cf-aig-authorization</code> header to prevent unauthorized gateway usage</li>
-              <li><strong>Gateway health check</strong> &mdash; Settings UI includes a one-tap connectivity test to verify gateway reachability</li>
-              <li><strong>Zero-maintenance proxy</strong> &mdash; No server to manage; Cloudflare handles routing, retries, and analytics automatically</li>
-            </ul>
-            <p class="changelog-subtitle">Code Interpreter &amp; File Preview</p>
-            <ul>
-              <li><strong>Code interpreter output files</strong> &mdash; AI-generated files (PNG, CSV, etc.) from code execution are now displayed as tappable links in chat</li>
-              <li><strong>Native file preview</strong> &mdash; Tapping a file link downloads it via OpenAI Files API and opens iOS native <code>QLPreviewController</code> for full-screen preview</li>
-              <li><strong>Share &amp; save</strong> &mdash; Preview includes standard iOS share sheet for saving files to Photos, Files, or other apps</li>
-              <li><strong>Download progress indicator</strong> &mdash; Visual progress bar shown during file download with error handling</li>
-            </ul>
-            <p class="changelog-subtitle">Swift Concurrency &amp; Build Fixes</p>
-            <ul>
-              <li><strong>Swift 6 strict concurrency compliance</strong> &mdash; Fixed <code>_platformRelayURL</code> global mutable state with <code>NSLock</code>-backed thread-safe storage</li>
-              <li><strong><code>RelayAPIService</code> Sendable conformance</strong> &mdash; Added <code>@unchecked Sendable</code> for safe cross-actor usage</li>
-              <li><strong><code>StreamEvent.completed</code> tuple alignment</strong> &mdash; Fixed parameter count mismatch after adding <code>FilePathAnnotation</code> support</li>
-            </ul>
-            <p class="changelog-subtitle">Architecture</p>
-            <ul>
-              <li><strong>Removed WebSocket relay layer</strong> &mdash; Deleted <code>RelayAPIService.swift</code> and <code>RelaySocketService.swift</code> (1,150+ lines removed)</li>
-              <li><strong>Unified API routing</strong> &mdash; Single code path for all OpenAI endpoints (<code>/responses</code>, <code>/chat/completions</code>, <code>/files</code>) through configurable base URL</li>
-              <li><strong>New <code>FileDownloadService</code></strong> &mdash; Dedicated actor for downloading files with automatic gateway/direct URL resolution</li>
-              <li><strong>New <code>FilePreviewController</code></strong> &mdash; SwiftUI wrapper around <code>QLPreviewController</code> for native document preview</li>
-              <li><strong><code>FilePathAnnotation</code> model</strong> &mdash; Maps sandbox file paths to OpenAI file IDs for seamless download resolution</li>
-            </ul>
-            <p class="changelog-subtitle">Generated File Workflow</p>
-            <ul>
-              <li><strong>Dedicated image viewer for <code>png</code>, <code>jpg</code>, and <code>jpeg</code></strong> &mdash; Common code interpreter image outputs now open in a cleaner full-screen viewer instead of falling back to generic file handling</li>
-              <li><strong>Dedicated PDF preview</strong> &mdash; Generated PDFs now open in their own native-feeling reader with sharing support and a cleaner presentation than the old system preview path</li>
-              <li><strong>Direct share for every other output type</strong> &mdash; CSV, ZIP, JSON, audio, office files, and other generated assets now jump straight into the standard iOS share sheet for handoff to other apps</li>
-            </ul>
-            <p class="changelog-subtitle">Caching &amp; Expiring Links</p>
-            <ul>
-              <li><strong>Automatic generated-file caching</strong> &mdash; Files are downloaded and cached on-device as part of the response lifecycle so older chat links are less likely to break when sandbox URLs expire</li>
-              <li><strong>Separate image and document caches</strong> &mdash; <code>png/jpg/jpeg</code> live in Image Cache while PDFs and all other generated files live in Document Cache</li>
-              <li><strong>Per-cache management in Settings</strong> &mdash; Each cache shows live usage and can be cleared manually, with the same 250 MB limit applied independently to both buckets</li>
-            </ul>
-            <p class="changelog-subtitle">Viewer Polish</p>
-            <ul>
-              <li><strong>Theme-aware preview pages</strong> &mdash; Generated file viewers now follow the app&rsquo;s system, light, or dark theme selection instead of feeling detached from the rest of the product</li>
-              <li><strong>Better share and save flows</strong> &mdash; Image preview now feels more deliberate around sharing and saving to Photos, while document-style outputs route directly into the system tools users already expect</li>
-            </ul>
-          </div>
+    <section class="section" id="architecture">
+      <div class="frame section-shell">
+        <div class="section-lockup reveal">
+          <div class="eyebrow">System</div>
+          <h2 class="section-title">A few rules do most of the work.</h2>
+          <p class="section-copy">
+            Keep UI on the surface. Wire production once. Mutate reply state in one place.
+          </p>
+          <div class="divider"></div>
         </div>
 
-        <!-- v2.1.0 -->
-        <div class="changelog-entry glass reveal">
-          <div class="changelog-header">
-            <span class="changelog-version">v2.1.0</span>
-            <span class="changelog-date">March 11, 2026</span>
-          </div>
-          <div class="changelog-tag changelog-tag-minor">Update</div>
-          <div class="changelog-body">
-            <p class="changelog-subtitle">Reliability &amp; Recovery</p>
-            <ul>
-              <li><strong>Response recovery on force-quit</strong> &mdash; If you send a message and immediately kill the app, the request is automatically re-sent on next launch with a &ldquo;Recovering&hellip;&rdquo; banner</li>
-              <li><strong>Response recovery on interruption</strong> &mdash; Saves <code>responseId</code> from SSE stream; polls OpenAI API on app resume to recover complete responses</li>
-              <li><strong>Network auto-reconnect</strong> &mdash; Detects 8 network error types with exponential backoff retry (1s &rarr; 2s &rarr; 4s, max 3 attempts)</li>
-              <li><strong>Stale draft cleanup</strong> &mdash; Automatically removes incomplete drafts older than 24 hours on app launch</li>
-            </ul>
-            <p class="changelog-subtitle">UI Improvements</p>
-            <ul>
-              <li><strong>Model badge in toolbar</strong> &mdash; Fixed text visibility in iOS 26 toolbar (shows full model name + effort, e.g. &ldquo;GPT-5.4 Pro Medium&rdquo;)</li>
-              <li><strong>Native reasoning effort slider</strong> &mdash; Replaced custom slider with iOS 26 native Slider for Liquid Glass thumb effect</li>
-              <li><strong>GPT-5.4 Pro thinking visibility</strong> &mdash; Real-time chain-of-thought reasoning displayed during streaming</li>
-              <li><strong>Tab bar always visible</strong> &mdash; Chat/History/Settings tabs no longer collapse on scroll</li>
-              <li><strong>Auto-generated titles</strong> &mdash; Conversation titles generated on background enter and retroactively on next launch</li>
-              <li><strong>Empty state centered</strong> &mdash; &ldquo;Start a Conversation&rdquo; icon and text now vertically and horizontally centered</li>
-              <li><strong>Clean input bar</strong> &mdash; Bottom input area uses a solid white background for better readability</li>
-              <li><strong>Dynamic platform info</strong> &mdash; Settings now reads the actual device OS version; shows &ldquo;Liquid Glass&rdquo; label only on iOS/iPadOS 26+</li>
-            </ul>
-            <p class="changelog-subtitle">Branding</p>
-            <ul>
-              <li><strong>Renamed to GlassGPT</strong> &mdash; App display name changed from &ldquo;Liquid Glass Chat&rdquo; to &ldquo;GlassGPT&rdquo;</li>
-              <li><strong>Open source</strong> &mdash; Source code now available on <a href="https://github.com/ljnpro/GlassGPT" target="_blank">GitHub</a></li>
-            </ul>
-            <p class="changelog-subtitle">Rendering</p>
-            <ul>
-              <li><strong>Markdown headings</strong> &mdash; <code>##</code> and <code>###</code> now render as styled headings instead of raw text</li>
-              <li><strong>LaTeX spacing</strong> &mdash; Fixed consecutive block formulas overlapping; improved spacing between formulas and text</li>
-            </ul>
-            <p class="changelog-subtitle">Platform Adaptation</p>
-            <ul>
-              <li><strong>iPad support</strong> &mdash; Haptic Feedback toggle hidden on iPad (no Taptic Engine)</li>
-              <li><strong>Settings version</strong> &mdash; Updated to v2.1.0 with dynamic platform detection</li>
-            </ul>
-            <p class="changelog-subtitle">Bug Fixes</p>
-            <ul>
-              <li>Fixed conversation history loss caused by in-memory storage fallback on schema migration</li>
-              <li>Fixed new chat button alignment and glass container shape</li>
-              <li>Removed conversation title from chat view toolbar (only shown in History)</li>
-              <li>Removed redundant subtitle from empty chat state</li>
-            </ul>
-          </div>
-        </div>
+        <div class="reveal">
+          <div class="architecture-board glass-plane">
+            <article class="architecture-row">
+              <div class="row-label">Surface</div>
+              <div class="row-body">
+                <strong>UI stays at the edge</strong>
+                <p>Chat, history, settings, markdown, and previews stay in the surface layer.</p>
+              </div>
+            </article>
 
-        <!-- v2.0.0 -->
-        <div class="changelog-entry glass reveal">
-          <div class="changelog-header">
-            <span class="changelog-version">v2.0.0</span>
-            <span class="changelog-date">March 10, 2026</span>
-          </div>
-          <div class="changelog-tag changelog-tag-major">Major Release</div>
-          <div class="changelog-body">
-            <p class="changelog-subtitle">Complete Native Rewrite</p>
-            <ul>
-              <li>Rebuilt the entire app in native Swift &amp; SwiftUI &mdash; no more React Native layer</li>
-              <li>True iOS 26 Liquid Glass effects via native <code>.glassEffect()</code> API</li>
-              <li>SwiftData persistence for conversations and messages</li>
-            </ul>
-            <p class="changelog-subtitle">New Features</p>
-            <ul>
-              <li><strong>Offline LaTeX rendering</strong> &mdash; KaTeX JS, CSS, and fonts bundled into the app; no CDN dependency</li>
-              <li><strong>Message long-press menu</strong> &mdash; Copy Text, Regenerate Reply, and Share on any assistant message</li>
-              <li><strong>Code block enhancements</strong> &mdash; Language label and one-tap copy button with glass styling</li>
-              <li><strong>Lightweight streaming view</strong> &mdash; New <code>StreamingTextView</code> for smooth, real-time text rendering during streaming</li>
-              <li><strong>Simulated streaming fallback</strong> &mdash; Even when the API falls back to non-streaming, text appears gradually</li>
-            </ul>
-            <p class="changelog-subtitle">Bug Fixes</p>
-            <ul>
-              <li>Fixed context menu being obscured by WKWebView layers (<code>.compositingGroup()</code>)</li>
-              <li>Fixed context menu anchoring to code block Copy button instead of full bubble</li>
-              <li>Fixed streaming appearing all at once due to heavy MarkdownContentView re-parsing</li>
-              <li>Fixed keyboard gap and input bar positioning</li>
-              <li>Fixed navigation title centering</li>
-            </ul>
-          </div>
-        </div>
+            <article class="architecture-row">
+              <div class="row-label">Composition</div>
+              <div class="row-body">
+                <strong>Production wiring happens once</strong>
+                <p>The composition root owns assembly so dependencies do not drift.</p>
+              </div>
+            </article>
 
-        <!-- v1.1 -->
-        <div class="changelog-entry glass reveal">
-          <div class="changelog-header">
-            <span class="changelog-version">v1.1.0</span>
-            <span class="changelog-date">March 8, 2026</span>
-          </div>
-          <div class="changelog-tag changelog-tag-minor">Update</div>
-          <div class="changelog-body">
-            <ul>
-              <li>Expo SDK 55 upgrade with all dependencies updated</li>
-              <li>Streaming with auto-reconnect and 45s stall detection</li>
-              <li>Image upload support (HEIC/JPEG/PNG auto-conversion)</li>
-              <li>Reasoning/thinking process display with collapsible section</li>
-              <li>Fixed duplicate response output bug</li>
-              <li>Fixed Settings white screen crash</li>
-            </ul>
-          </div>
-        </div>
+            <article class="architecture-row">
+              <div class="row-label">Runtime</div>
+              <div class="row-body">
+                <strong>Reply state has one owner</strong>
+                <p>ReplySessionActor owns mutation while evaluators keep recovery and terminal decisions explicit.</p>
+              </div>
+            </article>
 
-        <!-- v1.0 -->
-        <div class="changelog-entry glass reveal">
-          <div class="changelog-header">
-            <span class="changelog-version">v1.0.0</span>
-            <span class="changelog-date">March 5, 2026</span>
+            <article class="architecture-row">
+              <div class="row-label">Transport</div>
+              <div class="row-body">
+                <strong>Routing stays outside the UI</strong>
+                <p>Direct OpenAI, optional gateway routing, and file flows stay in transport.</p>
+              </div>
+            </article>
           </div>
-          <div class="changelog-tag changelog-tag-initial">Initial Release</div>
-          <div class="changelog-body">
-            <ul>
-              <li>GPT-5.4 &amp; GPT-5.4 Pro with adjustable reasoning effort</li>
-              <li>iOS 26 Liquid Glass UI design</li>
-              <li>Real-time streaming responses</li>
-              <li>LaTeX and code block rendering</li>
-              <li>Conversation history with search</li>
-              <li>Secure API key storage via iOS Keychain</li>
-            </ul>
-          </div>
-        </div>
 
-      </div>
-    </div>
-  </section>
-
-  <!-- FAQ -->
-  <section id="faq">
-    <div class="container">
-      <div class="section-header reveal">
-        <span class="section-label">FAQ</span>
-        <h2>Frequently Asked Questions</h2>
-        <p>Practical answers about models, routing, generated files, and how the app handles your data.</p>
-      </div>
-      <div class="faq-list">
-
-        <div class="faq-item glass reveal">
-          <button class="faq-question" aria-expanded="false">
-            <span>How do I get an OpenAI API key?</span>
-            <span class="faq-chevron">
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4L6 8L10 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </span>
-          </button>
-          <div class="faq-answer">
-            <div class="faq-answer-inner">
-              Visit <a href="https://platform.openai.com/api-keys" target="_blank" rel="noopener">platform.openai.com/api-keys</a> to create an API key. You will need an OpenAI account with billing enabled. Once created, paste the key into the Settings tab of the app.
+          <div class="quality-strip reveal">
+            <div class="quality-item">
+              <strong>16</strong>
+              <span>Package targets with clean import boundaries.</span>
+            </div>
+            <div class="quality-item">
+              <strong>1</strong>
+              <span>Mutable runtime owner for reply state.</span>
+            </div>
+            <div class="quality-item">
+              <strong>4</strong>
+              <span>Pure decision evaluators across runtime flows.</span>
+            </div>
+            <div class="quality-item">
+              <strong>22</strong>
+              <span>Expanded release and CI gates in 4.x.</span>
             </div>
           </div>
         </div>
-
-        <div class="faq-item glass reveal">
-          <button class="faq-question" aria-expanded="false">
-            <span>What models are supported?</span>
-            <span class="faq-chevron">
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4L6 8L10 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </span>
-          </button>
-          <div class="faq-answer">
-            <div class="faq-answer-inner">
-              The app supports GPT-5.4 and GPT-5.4 Pro. GPT-5.4 offers reasoning effort levels from none to xhigh, while GPT-5.4 Pro supports medium, high, and xhigh reasoning. The default is GPT-5.4 Pro with xhigh reasoning for the most thorough responses.
-            </div>
-          </div>
-        </div>
-
-        <div class="faq-item glass reveal">
-          <button class="faq-question" aria-expanded="false">
-            <span>What is &ldquo;reasoning effort&rdquo;?</span>
-            <span class="faq-chevron">
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4L6 8L10 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </span>
-          </button>
-          <div class="faq-answer">
-            <div class="faq-answer-inner">
-              Reasoning effort controls how much thinking the model does before responding. Higher effort produces more careful answers but uses more tokens, while lower effort gives faster, leaner replies. GlassGPT keeps this explicit so you can choose the tradeoff instead of accepting one default for every task.
-            </div>
-          </div>
-        </div>
-
-        <div class="faq-item glass reveal">
-          <button class="faq-question" aria-expanded="false">
-            <span>What happens when the AI generates a file?</span>
-            <span class="faq-chevron">
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4L6 8L10 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </span>
-          </button>
-          <div class="faq-answer">
-            <div class="faq-answer-inner">
-              Code interpreter outputs appear as links in chat. PNG, JPG, and JPEG files open in the dedicated image viewer; PDFs open in their own PDF viewer; and every other file type jumps straight into the standard iOS share sheet so you can open it in Files, save it, or hand it off to another app. Generated files are also cached on-device to make expiring sandbox links less disruptive.
-            </div>
-          </div>
-        </div>
-
-        <div class="faq-item glass reveal">
-          <button class="faq-question" aria-expanded="false">
-            <span>Is my API key stored securely?</span>
-            <span class="faq-chevron">
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4L6 8L10 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </span>
-          </button>
-          <div class="faq-answer">
-            <div class="faq-answer-inner">
-              Yes. On iOS, your API key is stored on-device via SecureStore. GlassGPT does not run its own analytics backend or mirror your conversations. Depending on configuration, requests can go directly to OpenAI or through the configured gateway route, but the app itself is designed to keep credentials and local history on your device.
-            </div>
-          </div>
-        </div>
-
-        <div class="faq-item glass reveal">
-          <button class="faq-question" aria-expanded="false">
-            <span>Can I send images to the AI?</span>
-            <span class="faq-chevron">
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4L6 8L10 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </span>
-          </button>
-          <div class="faq-answer">
-            <div class="faq-answer-inner">
-              Yes. Tap the image button in the input bar to select photos from your library. The app automatically converts iPhone HEIC photos to JPEG before sending them to OpenAI&rsquo;s multimodal API, and you can attach images alongside normal text prompts.
-            </div>
-          </div>
-        </div>
-
-        <div class="faq-item glass reveal">
-          <button class="faq-question" aria-expanded="false">
-            <span>What happens if the connection drops mid-response?</span>
-            <span class="faq-chevron">
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4L6 8L10 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </span>
-          </button>
-          <div class="faq-answer">
-            <div class="faq-answer-inner">
-              The app includes stall detection, auto-reconnect behavior, and recovery flows for interrupted responses. Partial content is preserved where possible, and the newer generated-file cache work also helps keep code interpreter outputs available after the original sandbox links age out.
-            </div>
-          </div>
-        </div>
-
-        <div class="faq-item glass reveal">
-          <button class="faq-question" aria-expanded="false">
-            <span>Does the app work with iOS 26 Liquid Glass?</span>
-            <span class="faq-chevron">
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4L6 8L10 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </span>
-          </button>
-          <div class="faq-answer">
-            <div class="faq-answer-inner">
-              Yes. On iOS 26, the app uses native Liquid Glass-style components for translucent, depth-aware UI elements. On older iOS versions, it falls back gracefully while preserving the same overall product language.
-            </div>
-          </div>
-        </div>
-
-        <div class="faq-item glass reveal">
-          <button class="faq-question" aria-expanded="false">
-            <span>How much does it cost to use?</span>
-            <span class="faq-chevron">
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4L6 8L10 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </span>
-          </button>
-          <div class="faq-answer">
-            <div class="faq-answer-inner">
-              The app itself is free. You pay only for the tokens and storage you consume through your own OpenAI account. Pricing depends on the model and reasoning level you choose. Check <a href="https://openai.com/pricing" target="_blank" rel="noopener">OpenAI&rsquo;s pricing page</a> for current rates.
-            </div>
-          </div>
-        </div>
-
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Privacy -->
-  <section id="privacy">
-    <div class="container">
-      <div class="section-header reveal">
-        <span class="section-label">Privacy</span>
-        <h2>Your data stays yours</h2>
-        <p>GlassGPT is designed to keep credentials, conversations, and generated files centered on your device instead of turning the app into a data pipeline.</p>
-      </div>
-      <div class="privacy-card glass reveal">
-        <div class="privacy-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24"><path d="M12 3 5 6v5c0 4.5 2.6 7.9 7 10 4.4-2.1 7-5.5 7-10V6l-7-3Z"/><path d="M9.5 11.5 11.25 13.25 14.75 9.75"/></svg>
+    <section class="section" id="timeline">
+      <div class="frame section-shell">
+        <div class="section-lockup reveal">
+          <div class="eyebrow">Release timeline</div>
+          <h2 class="section-title">Five short milestones.</h2>
+          <p class="section-copy">
+            Curated milestones from the real changelog.
+          </p>
+          <div class="divider"></div>
         </div>
-        <h3>Privacy Policy</h3>
-        <ul class="privacy-points">
-          <li>
-            <span class="privacy-check">✓</span>
-            <span><strong>No data collection.</strong> We do not collect, store, or transmit any of your conversations, messages, or personal information to our servers.</span>
-          </li>
-          <li>
-            <span class="privacy-check">✓</span>
-            <span><strong>Local storage only.</strong> All conversations and settings are stored locally on your device. Your API key is protected using iOS Secure Enclave (SecureStore).</span>
-          </li>
-          <li>
-            <span class="privacy-check">✓</span>
-            <span><strong>Configurable API routing.</strong> Requests follow the app&rsquo;s configured endpoint path, which can be direct OpenAI or a gateway route such as Cloudflare AI Gateway, without turning GlassGPT into a separate data-collecting backend.</span>
-          </li>
-          <li>
-            <span class="privacy-check">✓</span>
-            <span><strong>No analytics or tracking.</strong> The app does not include any analytics SDKs, advertising frameworks, or user tracking mechanisms.</span>
-          </li>
-          <li>
-            <span class="privacy-check">✓</span>
-            <span><strong>No account required.</strong> You do not need to create an account with us. The only credential needed is your own OpenAI API key.</span>
-          </li>
-          <li>
-            <span class="privacy-check">✓</span>
-            <span><strong>Generated files remain manageable.</strong> Code interpreter outputs can be cached on-device and cleared manually through separate image and document cache controls in Settings.</span>
-          </li>
-          <li>
-            <span class="privacy-check">✓</span>
-            <span><strong>Endpoint operator policies still apply.</strong> Your interactions with OpenAI are subject to <a href="https://openai.com/policies/terms-of-use" target="_blank" rel="noopener" style="color: var(--accent);">OpenAI&rsquo;s Terms of Use</a> and <a href="https://openai.com/policies/privacy-policy" target="_blank" rel="noopener" style="color: var(--accent);">Privacy Policy</a>. If you use a gateway path, that operator&rsquo;s policies may also apply.</span>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </section>
 
-  <!-- Support / Contact -->
-  <section id="support">
-    <div class="container">
-      <div class="section-header reveal">
-        <span class="section-label">Support</span>
-        <h2>Need help with setup, routing, or generated files?</h2>
-        <p>Use the support channel for install issues, API key setup, file preview problems, or questions about the current v3.0.0 development line.</p>
-      </div>
-      <div class="contact-card glass reveal">
-        <h3>Get in Touch</h3>
-        <p>If you run into a bug, need help understanding a release note, or want to report a generated-file issue, send a concise message with your device, iOS version, and what happened. That makes support much faster.</p>
-        <a href="mailto:ljnpro6@gmail.com" class="contact-email">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 7L2 7"/></svg>
-          ljnpro6@gmail.com
-        </a>
-      </div>
-    </div>
-  </section>
+        <div class="timeline-wrap reveal">
+          <article class="timeline-entry">
+            <div class="timeline-meta">
+              <span class="timeline-version">4.5</span>
+              <span class="timeline-date">January 20, 2025</span>
+            </div>
+            <div class="timeline-body">
+              <h3>Native rewrite</h3>
+              <ul>
+                <li>Complete native SwiftUI rewrite of the chat client.</li>
+                <li>SwiftData and package boundaries land together.</li>
+              </ul>
+            </div>
+          </article>
 
-  <!-- Footer -->
-  <footer>
-    <div class="container">
-      <div class="footer-inner">
-        <div class="footer-brand">
-          <img src="icon.png" alt="GlassGPT" />
-          <span>GlassGPT</span>
+          <article class="timeline-entry">
+            <div class="timeline-meta">
+              <span class="timeline-version">4.7</span>
+              <span class="timeline-date">March 18, 2025</span>
+            </div>
+            <div class="timeline-body">
+              <h3>Runtime ownership</h3>
+              <ul>
+                <li>ReplySessionActor becomes the single mutable runtime owner.</li>
+                <li>Composition root and coordinators replace broader controller ownership.</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="timeline-entry">
+            <div class="timeline-meta">
+              <span class="timeline-version">4.8</span>
+              <span class="timeline-date">March 18 to March 19, 2026</span>
+            </div>
+            <div class="timeline-body">
+              <h3>Engineering rigor</h3>
+              <ul>
+                <li>Typed throws, observability, and accessibility expand the safety net.</li>
+                <li>CI grows into a real engineering gate system.</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="timeline-entry">
+            <div class="timeline-meta">
+              <span class="timeline-version">4.9</span>
+              <span class="timeline-date">March 19 to March 20, 2026</span>
+            </div>
+            <div class="timeline-body">
+              <h3>Boundary tightening</h3>
+              <ul>
+                <li>Settings and history ownership are tightened across application, presentation, and composition.</li>
+                <li>Release-readiness, localization, and documentation checks become standard.</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="timeline-entry">
+            <div class="timeline-meta">
+              <span class="timeline-version">4.10</span>
+              <span class="timeline-date">March 21 to March 23, 2026</span>
+            </div>
+            <div class="timeline-body">
+              <h3>Reliability line</h3>
+              <ul>
+                <li>Gateway modes, direct validation, and fallback handling land in transport.</li>
+                <li>Runtime, settings, and streaming behavior are repeatedly hardened.</li>
+              </ul>
+            </div>
+          </article>
         </div>
-        <span class="footer-copy">v3.0.0 in development &middot; Support page preview for iOS 26</span>
       </div>
+    </section>
+
+    <section class="section" id="support">
+      <div class="frame">
+        <div class="support-panel glass-plane reveal">
+          <div>
+            <div class="eyebrow">Support</div>
+            <h3>Support, source, and privacy.</h3>
+            <p>
+              Local-first. Bring your own API key. Optional gateway routing.
+            </p>
+            <ul class="support-links">
+              <li><a href="mailto:ljnpro6@gmail.com">ljnpro6@gmail.com</a></li>
+              <li><a href="https://github.com/ljnpro/GlassGPT" target="_blank" rel="noopener">GitHub repository</a></li>
+            </ul>
+          </div>
+          <div class="faq-tag">English support page</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="frame footer-inner">
+      <div class="footer-brand">
+        <img src="icon.png" alt="GlassGPT logo" />
+        <div>
+          <strong>GlassGPT</strong>
+          <span>4.0 release era, 4.5 through 4.10.</span>
+        </div>
+      </div>
+      <div class="footer-note">A shorter product page for the native architecture line.</div>
     </div>
   </footer>
 
-  <!-- Scripts -->
   <script>
-    // Navbar scroll effect
-    const nav = document.getElementById('nav');
-    window.addEventListener('scroll', () => {
-      nav.classList.toggle('scrolled', window.scrollY > 20);
-    }, { passive: true });
+    const nav = document.querySelector(".site-nav");
+    const revealItems = document.querySelectorAll(".reveal");
+    const heroStage = document.querySelector(".hero-stage");
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const finePointer = window.matchMedia("(pointer: fine)");
 
-    // FAQ accordion
-    document.querySelectorAll('.faq-question').forEach(button => {
-      button.addEventListener('click', () => {
-        const item = button.closest('.faq-item');
-        const isOpen = item.classList.contains('open');
+    const updateNavState = () => {
+      nav.classList.toggle("scrolled", window.scrollY > 18);
+    };
 
-        // Close all
-        document.querySelectorAll('.faq-item.open').forEach(openItem => {
-          openItem.classList.remove('open');
-          openItem.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
-        });
+    updateNavState();
+    window.addEventListener("scroll", updateNavState, { passive: true });
 
-        // Toggle current
-        if (!isOpen) {
-          item.classList.add('open');
-          button.setAttribute('aria-expanded', 'true');
-        }
-      });
-    });
+    if ("IntersectionObserver" in window) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) {
+            return;
+          }
 
-    // Scroll reveal
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
+          entry.target.classList.add("visible");
           observer.unobserve(entry.target);
-        }
+        });
+      }, {
+        threshold: 0.12,
+        rootMargin: "0px 0px -40px 0px"
       });
-    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
 
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+      revealItems.forEach((item) => observer.observe(item));
+    } else {
+      revealItems.forEach((item) => item.classList.add("visible"));
+    }
+
+    if (heroStage && finePointer.matches && !prefersReducedMotion.matches) {
+      const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+
+      heroStage.addEventListener("pointermove", (event) => {
+        const rect = heroStage.getBoundingClientRect();
+        const offsetX = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+        const offsetY = ((event.clientY - rect.top) / rect.height) * 2 - 1;
+        const shiftX = clamp(offsetX * 10, -10, 10);
+        const shiftY = clamp(offsetY * 10, -10, 10);
+
+        heroStage.style.setProperty("--hero-shift-x", `${shiftX}px`);
+        heroStage.style.setProperty("--hero-shift-y", `${shiftY}px`);
+      });
+
+      heroStage.addEventListener("pointerleave", () => {
+        heroStage.style.setProperty("--hero-shift-x", "0px");
+        heroStage.style.setProperty("--hero-shift-y", "0px");
+      });
+    }
   </script>
 </body>
 </html>
