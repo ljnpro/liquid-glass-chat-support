@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GlassGPT Privacy</title>
+  <meta
+    name="description"
+    content="GlassGPT privacy, in plain English: what can be sent, who can receive it, what stays local, and how to stay in control."
+  />
+  <meta name="theme-color" content="#070b11" />
+  <script>
+    (function () {
+      const params = new URLSearchParams(window.location.search);
+      const keepDesktop = params.get("view") === "desktop";
+      const onMobileRoute = /\/mobile\/privacy\/?$/.test(window.location.pathname);
+      const isMobileClient = window.matchMedia("(max-width: 860px)").matches ||
+        /Android|iPhone|iPad|iPod|Mobile/i.test(window.navigator.userAgent);
+
+      if (keepDesktop || onMobileRoute || !isMobileClient) {
+        return;
+      }
+
+      let pathname = window.location.pathname.replace(/index\.html$/, "");
+      if (!pathname.endsWith("/")) {
+        pathname += "/";
+      }
+
+      const mobilePath = pathname.replace(/\/privacy\/$/, "/mobile/privacy/");
+      window.location.replace((mobilePath === pathname ? pathname + "mobile/privacy/" : mobilePath) + window.location.search + window.location.hash);
+    })();
+  </script>
+  <link rel="icon" type="image/png" href="../icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+
+    :root {
+      --bg: #070b11;
+      --surface: rgba(18, 24, 34, 0.66);
+      --surface-strong: rgba(17, 24, 34, 0.84);
+      --line: rgba(255, 255, 255, 0.08);
+      --line-strong: rgba(255, 255, 255, 0.14);
+      --text: #f4f7fb;
+      --text-muted: rgba(244, 247, 251, 0.72);
+      --text-soft: rgba(244, 247, 251, 0.5);
+      --accent: #86c4ff;
+      --accent-strong: #5fa9ff;
+      --success: #83dbc4;
+      --warn: #ffd98e;
+      --radius-xl: 34px;
+      --radius-lg: 26px;
+      --radius-md: 20px;
+      --shadow: 0 30px 90px rgba(0, 0, 0, 0.34);
+      --frame: min(1180px, calc(100vw - 56px));
+      --font-body: "Manrope", -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-display: "Space Grotesk", -apple-system, BlinkMacSystemFont, sans-serif;
+      --header-height: 74px;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 96px;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      margin: 0;
+      font-family: var(--font-body);
+      color: var(--text);
+      background:
+        radial-gradient(circle at 14% 18%, rgba(79, 159, 255, 0.18), transparent 32%),
+        radial-gradient(circle at 84% 22%, rgba(127, 217, 193, 0.11), transparent 34%),
+        linear-gradient(180deg, #090d14 0%, #06090f 46%, #04060b 100%);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+      background-size: 84px 84px;
+      mask-image: radial-gradient(circle at center, black 28%, transparent 100%);
+      opacity: 0.24;
+    }
+
+    img { display: block; max-width: 100%; }
+    a { color: inherit; }
+
+    .frame {
+      width: var(--frame);
+      margin: 0 auto;
+    }
+
+    .glass {
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02)),
+        var(--surface);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(26px) saturate(130%);
+      -webkit-backdrop-filter: blur(26px) saturate(130%);
+    }
+
+    .site-nav {
+      position: fixed;
+      inset: 0 0 auto;
+      z-index: 100;
+      background: rgba(7, 11, 17, 0.72);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(24px) saturate(140%);
+      -webkit-backdrop-filter: blur(24px) saturate(140%);
+    }
+
+    .nav-inner {
+      width: var(--frame);
+      margin: 0 auto;
+      min-height: var(--header-height);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 28px;
+    }
+
+    .nav-brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+      min-width: 0;
+    }
+
+    .nav-brand img {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      box-shadow:
+        0 0 0 1px rgba(255, 255, 255, 0.12),
+        0 16px 34px rgba(79, 159, 255, 0.14);
+    }
+
+    .nav-brand-copy strong {
+      display: block;
+      font-family: var(--font-display);
+      font-size: 16px;
+      letter-spacing: -0.02em;
+    }
+
+    .nav-brand-copy span {
+      display: block;
+      font-size: 12px;
+      color: var(--text-soft);
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      margin: 0;
+      padding: 0;
+    }
+
+    .nav-links a,
+    .nav-cta,
+    .button {
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .nav-links a {
+      color: var(--text-muted);
+    }
+
+    .nav-links a:hover,
+    .nav-links a:focus-visible {
+      color: var(--text);
+    }
+
+    .nav-cta,
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      padding: 0 18px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text);
+    }
+
+    .nav-cta:hover,
+    .button:hover {
+      border-color: rgba(255, 255, 255, 0.18);
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .button-primary {
+      background: linear-gradient(135deg, #dff0ff 0%, #86c4ff 58%, #5eabff 100%);
+      color: #06101e;
+      border-color: transparent;
+      box-shadow: 0 18px 44px rgba(79, 159, 255, 0.24);
+    }
+
+    .button-primary:hover {
+      background: linear-gradient(135deg, #ecf7ff 0%, #9ad0ff 58%, #73b7ff 100%);
+    }
+
+    main {
+      padding-top: calc(var(--header-height) + 34px);
+    }
+
+    .hero {
+      padding: 56px 0 54px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.04fr) minmax(360px, 0.86fr);
+      gap: 48px;
+      align-items: end;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 18px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 28px;
+      height: 1px;
+      background: linear-gradient(90deg, rgba(134, 196, 255, 0.12), rgba(134, 196, 255, 0.9));
+    }
+
+    .headline {
+      margin: 0 0 18px;
+      font-family: var(--font-display);
+      font-size: clamp(64px, 9vw, 110px);
+      line-height: 0.92;
+      letter-spacing: -0.07em;
+      max-width: 8.2ch;
+    }
+
+    .headline span {
+      display: block;
+      color: rgba(244, 247, 251, 0.74);
+    }
+
+    .hero-lead {
+      margin: 0 0 26px;
+      max-width: 26ch;
+      font-size: 20px;
+      line-height: 1.6;
+      color: var(--text-muted);
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .hero-card {
+      padding: 30px;
+      border-radius: var(--radius-xl);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-card::before {
+      content: "";
+      position: absolute;
+      inset: 18px 18px auto auto;
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(134, 196, 255, 0.24), transparent 72%);
+      filter: blur(10px);
+      opacity: 0.8;
+    }
+
+    .hero-card span {
+      display: block;
+      position: relative;
+      margin-bottom: 8px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .hero-card strong {
+      display: block;
+      position: relative;
+      margin-bottom: 12px;
+      font-family: var(--font-display);
+      font-size: 34px;
+      line-height: 1.02;
+      letter-spacing: -0.05em;
+    }
+
+    .hero-card p {
+      position: relative;
+      margin: 0;
+      font-size: 15px;
+      line-height: 1.7;
+      color: var(--text-muted);
+      max-width: 30ch;
+    }
+
+    .section {
+      padding: 0 0 34px;
+    }
+
+    .section-grid {
+      display: grid;
+      grid-template-columns: minmax(220px, 0.34fr) minmax(0, 1fr);
+      gap: 34px;
+      align-items: start;
+    }
+
+    .section-lockup {
+      position: sticky;
+      top: 108px;
+    }
+
+    .section-lockup h2 {
+      margin: 0 0 10px;
+      font-family: var(--font-display);
+      font-size: clamp(34px, 4vw, 52px);
+      line-height: 0.98;
+      letter-spacing: -0.05em;
+    }
+
+    .section-lockup p {
+      margin: 0;
+      font-size: 16px;
+      line-height: 1.7;
+      color: var(--text-muted);
+      max-width: 22ch;
+    }
+
+    .stack {
+      display: grid;
+      gap: 18px;
+    }
+
+    .panel {
+      padding: 26px 28px;
+      border-radius: var(--radius-lg);
+    }
+
+    .panel h3 {
+      margin: 0 0 8px;
+      font-family: var(--font-display);
+      font-size: 26px;
+      line-height: 1;
+      letter-spacing: -0.04em;
+    }
+
+    .panel p {
+      margin: 0;
+      font-size: 15px;
+      line-height: 1.72;
+      color: var(--text-muted);
+    }
+
+    .facts {
+      list-style: none;
+      display: grid;
+      gap: 12px;
+      margin: 18px 0 0;
+      padding: 0;
+    }
+
+    .facts li {
+      display: grid;
+      grid-template-columns: 120px minmax(0, 1fr);
+      gap: 16px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255, 255, 255, 0.07);
+    }
+
+    .facts strong {
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-soft);
+    }
+
+    .facts span {
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--text-muted);
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .callout {
+      padding: 26px 28px;
+      border-radius: var(--radius-lg);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02)), var(--surface-strong);
+      border: 1px solid var(--line-strong);
+    }
+
+    .callout strong {
+      display: block;
+      margin-bottom: 10px;
+      font-family: var(--font-display);
+      font-size: 24px;
+      letter-spacing: -0.04em;
+    }
+
+    .callout p {
+      margin: 0;
+      font-size: 15px;
+      line-height: 1.7;
+      color: var(--text-muted);
+    }
+
+    .callout ul {
+      list-style: none;
+      display: grid;
+      gap: 10px;
+      margin: 18px 0 0;
+      padding: 0;
+    }
+
+    .callout li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--text-muted);
+    }
+
+    .callout li::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      margin-top: 8px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--success));
+      flex: 0 0 auto;
+    }
+
+    .footer {
+      padding: 18px 0 52px;
+    }
+
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .footer-brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .footer-brand img {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+    }
+
+    .footer-brand strong {
+      display: block;
+      font-family: var(--font-display);
+      font-size: 15px;
+    }
+
+    .footer-brand span,
+    .footer-note {
+      font-size: 12px;
+      color: var(--text-soft);
+    }
+
+    @media (max-width: 980px) {
+      :root {
+        --frame: min(100vw - 32px, 960px);
+      }
+
+      .hero-grid,
+      .section-grid,
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+
+      .section-lockup {
+        position: static;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .headline {
+        max-width: none;
+      }
+
+      .facts li {
+        grid-template-columns: 1fr;
+        gap: 6px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      :root {
+        --frame: calc(100vw - 24px);
+      }
+
+      .nav-inner {
+        gap: 14px;
+      }
+
+      .nav-cta {
+        display: none;
+      }
+
+      main {
+        padding-top: calc(var(--header-height) + 18px);
+      }
+
+      .hero {
+        padding: 34px 0 30px;
+      }
+
+      .hero-card,
+      .panel,
+      .callout {
+        padding: 22px 20px;
+      }
+
+      .headline {
+        font-size: clamp(52px, 17vw, 82px);
+      }
+
+      .hero-lead {
+        font-size: 17px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-nav">
+    <div class="nav-inner">
+      <a class="nav-brand" href="../">
+        <img src="../icon.png" alt="GlassGPT logo" />
+        <div class="nav-brand-copy">
+          <strong>GlassGPT</strong>
+          <span>Privacy</span>
+        </div>
+      </a>
+      <ul class="nav-links" aria-label="Primary navigation">
+        <li><a href="#summary">Summary</a></li>
+        <li><a href="#data">Data</a></li>
+        <li><a href="#controls">Controls</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <a class="nav-cta" href="../">Back to site</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="summary">
+      <div class="frame hero-grid">
+        <div>
+          <div class="eyebrow">GlassGPT privacy</div>
+          <h1 class="headline">
+            Privacy, <span>clearly stated.</span>
+          </h1>
+          <p class="hero-lead">
+            GlassGPT is local-first, but the messages and files you choose to send can be processed by external AI providers.
+          </p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#data">See what can be sent</a>
+            <a class="button" href="../">Back to the main site</a>
+          </div>
+        </div>
+
+        <aside class="hero-card glass">
+          <span>At a glance</span>
+          <strong>One plain rule: only what you choose to send.</strong>
+          <p>
+            Chats, attachments, and audio stay on device until you submit them. Once sent, they may be routed to OpenAI and, if enabled, through Cloudflare Gateway.
+          </p>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section" id="data">
+      <div class="frame section-grid">
+        <div class="section-lockup">
+          <div class="eyebrow">Data flow</div>
+          <h2>What GlassGPT can send.</h2>
+          <p>Only the content needed to complete the request you initiated.</p>
+        </div>
+
+        <div class="stack">
+          <div class="panel glass">
+            <h3>Content you submit</h3>
+            <ul class="facts">
+              <li>
+                <strong>Messages</strong>
+                <span>The text you type, plus the model and response settings tied to that request.</span>
+              </li>
+              <li>
+                <strong>Attachments</strong>
+                <span>Images, documents, and other files only when you explicitly attach them to a chat.</span>
+              </li>
+              <li>
+                <strong>Voice</strong>
+                <span>Audio only when you record and send it as part of a request.</span>
+              </li>
+              <li>
+                <strong>Recovery data</strong>
+                <span>Response identifiers and related metadata may be used to resume or recover in-progress replies.</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="grid-2">
+            <div class="callout">
+              <strong>Who may receive it</strong>
+              <ul>
+                <li>OpenAI processes requests needed to generate responses.</li>
+                <li>Cloudflare only sits in the route when Gateway mode is enabled.</li>
+              </ul>
+            </div>
+            <div class="callout">
+              <strong>What stays local</strong>
+              <ul>
+                <li>Your API key is stored in Keychain.</li>
+                <li>Conversation history, settings, and cached files are kept on device unless you send them.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="controls">
+      <div class="frame section-grid">
+        <div class="section-lockup">
+          <div class="eyebrow">Control</div>
+          <h2>What you control.</h2>
+          <p>Privacy choices stay visible instead of getting buried in setup.</p>
+        </div>
+
+        <div class="stack">
+          <div class="panel glass">
+            <h3>In the app</h3>
+            <ul class="facts">
+              <li>
+                <strong>Consent</strong>
+                <span>Before first use, GlassGPT should clearly explain AI data sharing and require consent.</span>
+              </li>
+              <li>
+                <strong>Gateway</strong>
+                <span>Cloudflare Gateway is optional and can be disabled at any time in Settings.</span>
+              </li>
+              <li>
+                <strong>History</strong>
+                <span>You can clear conversations, remove keys, and change routing settings from the app.</span>
+              </li>
+              <li>
+                <strong>Files</strong>
+                <span>Generated files are cached locally to keep links usable later, and can be cleared from Settings.</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="callout">
+            <strong>Short version</strong>
+            <p>
+              GlassGPT is built to keep the working state local, while making third-party processing explicit when you actually use AI features.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="contact">
+      <div class="frame">
+        <div class="callout">
+          <strong>Questions or support</strong>
+          <p>
+            For support, policy questions, or correction requests, contact <a href="mailto:ljnpro6@gmail.com">ljnpro6@gmail.com</a> or review the project on
+            <a href="https://github.com/ljnpro/GlassGPT" target="_blank" rel="noopener">GitHub</a>.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="frame footer-inner">
+      <div class="footer-brand">
+        <img src="../icon.png" alt="GlassGPT logo" />
+        <div>
+          <strong>GlassGPT</strong>
+          <span>Privacy page for the native client.</span>
+        </div>
+      </div>
+      <div class="footer-note">Short, public-facing guidance for data flow and user control.</div>
+    </div>
+  </footer>
+</body>
+</html>

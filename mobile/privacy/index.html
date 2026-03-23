@@ -3,35 +3,32 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GlassGPT 4.0 - Mobile</title>
+  <title>GlassGPT Privacy - Mobile</title>
   <meta
     name="description"
-    content="GlassGPT 4.0 on mobile: a native AI chat client rebuilt around clear modules, actor-owned runtime, and calmer recovery through the 4.5 to 4.10 release line."
+    content="GlassGPT privacy on mobile: what can be sent, who can receive it, what stays local, and where to find support."
   />
   <meta name="theme-color" content="#070b11" />
-  <link rel="icon" type="image/png" href="../icon.png" />
+  <link rel="icon" type="image/png" href="../../icon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-    href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Space+Grotesk:wght@500;700&amp;display=swap"
+    href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap"
     rel="stylesheet"
   />
   <style>
     *, *::before, *::after { box-sizing: border-box; }
 
     :root {
-      --bg: #070b11;
-      --surface: rgba(18, 24, 34, 0.68);
+      --surface: rgba(18, 24, 34, 0.7);
       --line: rgba(255, 255, 255, 0.08);
       --text: #f4f7fb;
       --text-muted: rgba(244, 247, 251, 0.72);
       --text-soft: rgba(244, 247, 251, 0.48);
       --accent: #86c4ff;
-      --accent-strong: #4f9fff;
       --radius-xl: 32px;
-      --radius-lg: 24px;
+      --radius-lg: 22px;
       --radius-md: 18px;
-      --radius-sm: 14px;
       --shadow: 0 24px 70px rgba(0, 0, 0, 0.28);
       --font-body: "Manrope", -apple-system, BlinkMacSystemFont, sans-serif;
       --font-display: "Space Grotesk", -apple-system, BlinkMacSystemFont, sans-serif;
@@ -49,7 +46,7 @@
       color: var(--text);
       background:
         radial-gradient(circle at 20% 16%, rgba(79, 159, 255, 0.18), transparent 34%),
-        radial-gradient(circle at 72% 38%, rgba(134, 196, 255, 0.12), transparent 32%),
+        radial-gradient(circle at 74% 34%, rgba(127, 217, 193, 0.1), transparent 30%),
         linear-gradient(180deg, #0a0f17 0%, #060910 48%, #04060b 100%);
       min-height: 100vh;
     }
@@ -81,7 +78,7 @@
       align-items: center;
       justify-content: space-between;
       gap: 14px;
-      margin-bottom: 30px;
+      margin-bottom: 26px;
     }
 
     .brand {
@@ -115,8 +112,7 @@
     }
 
     .nav-link,
-    .button,
-    .support-links a {
+    .button {
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -131,7 +127,7 @@
     }
 
     .hero {
-      padding: 10px 0 34px;
+      padding: 8px 0 28px;
     }
 
     .eyebrow {
@@ -154,9 +150,9 @@
     }
 
     .headline {
-      margin: 0 0 16px;
+      margin: 0 0 14px;
       font-family: var(--font-display);
-      font-size: clamp(48px, 14vw, 66px);
+      font-size: clamp(46px, 13vw, 64px);
       line-height: 0.95;
       letter-spacing: -0.06em;
     }
@@ -167,47 +163,22 @@
     }
 
     .hero-lead {
-      margin: 0 0 24px;
+      margin: 0 0 22px;
       font-size: 15px;
-      line-height: 1.7;
+      line-height: 1.68;
       color: var(--text-muted);
-      max-width: 22ch;
+      max-width: 23ch;
     }
 
     .hero-actions {
       display: grid;
       gap: 12px;
-      margin-bottom: 22px;
     }
 
     .button-primary {
       background: linear-gradient(135deg, #dff0ff 0%, #86c4ff 58%, #5eabff 100%);
       color: #06101e;
       box-shadow: 0 16px 38px rgba(79, 159, 255, 0.24);
-    }
-
-    .metrics {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
-    }
-
-    .metric {
-      padding-top: 14px;
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
-    }
-
-    .metric strong {
-      display: block;
-      margin-bottom: 4px;
-      font-family: var(--font-display);
-      font-size: 18px;
-      letter-spacing: -0.04em;
-    }
-
-    .metric span {
-      font-size: 12px;
-      color: var(--text-soft);
     }
 
     .glass {
@@ -235,73 +206,84 @@
     }
 
     .panel-copy {
-      margin: 0 0 18px;
+      margin: 0 0 16px;
       font-size: 14px;
       line-height: 1.65;
       color: var(--text-muted);
     }
 
-    .system-grid {
+    .facts {
       display: grid;
       gap: 12px;
     }
 
-    .system-item {
-      padding: 16px;
-      border-radius: var(--radius-md);
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.08);
+    .fact {
+      padding-top: 12px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
     }
 
-    .system-item span,
-    .timeline-item span {
+    .fact strong {
       display: block;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
       font-size: 11px;
-      font-weight: 700;
+      font-weight: 800;
       letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: var(--accent);
+      color: var(--text-soft);
     }
 
-    .system-item strong,
-    .timeline-item strong {
-      display: block;
-      margin-bottom: 6px;
-      font-size: 18px;
-      letter-spacing: -0.03em;
-    }
-
-    .system-item p,
-    .timeline-item p {
+    .fact p,
+    .mini-list li,
+    .support-note {
       margin: 0;
-      font-size: 14px;
-      line-height: 1.6;
+      font-size: 13px;
+      line-height: 1.65;
       color: var(--text-muted);
     }
 
-    .timeline-list {
+    .mini-list {
+      list-style: none;
       display: grid;
-      gap: 14px;
+      gap: 10px;
+      margin: 0;
+      padding: 0;
     }
 
-    .timeline-item {
-      padding: 0 0 14px 14px;
-      border-left: 1px solid rgba(134, 196, 255, 0.28);
+    .mini-list li {
+      display: flex;
+      gap: 10px;
+    }
+
+    .mini-list li::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      margin-top: 7px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), #7fd9c1);
+      flex: 0 0 auto;
     }
 
     .support-links {
       list-style: none;
       display: grid;
-      gap: 12px;
+      gap: 10px;
+      margin: 0;
       padding: 0;
-      margin: 0 0 16px;
     }
 
-    .support-note {
+    .support-links a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      padding: 0 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.04);
+      text-decoration: none;
       font-size: 13px;
-      line-height: 1.6;
-      color: var(--text-soft);
+      font-weight: 700;
     }
 
     .footer {
@@ -317,122 +299,95 @@
   <div class="page">
     <header class="nav">
       <a class="brand" href="../">
-        <img src="../icon.png" alt="GlassGPT logo" />
+        <img src="../../icon.png" alt="GlassGPT logo" />
         <div class="brand-copy">
           <strong>GlassGPT</strong>
-          <span>4.0 release era</span>
+          <span>Privacy</span>
         </div>
       </a>
-      <a class="nav-link" href="../?view=desktop">Desktop</a>
+      <a class="nav-link" href="../../privacy/?view=desktop">Desktop</a>
     </header>
 
     <main>
       <section class="hero">
-        <div class="eyebrow">GlassGPT 4.0 release era</div>
+        <div class="eyebrow">GlassGPT privacy</div>
         <h1 class="headline">
-          Native by design.
-          <span>Modular by default.</span>
+          Privacy,
+          <span>compressed.</span>
         </h1>
         <p class="hero-lead">
-          The native rewrite through 4.10, compressed for a quick mobile read.
+          GlassGPT keeps the app local-first, but the content you submit can be processed by external AI providers.
         </p>
         <div class="hero-actions">
-          <a class="button button-primary" href="https://github.com/ljnpro/GlassGPT" target="_blank" rel="noopener">View the source</a>
-          <a class="button" href="privacy/">Privacy</a>
+          <a class="button button-primary" href="#data">What can be sent</a>
+          <a class="button" href="../">Back to mobile site</a>
         </div>
-        <div class="metrics">
-          <div class="metric">
-            <strong>4.5 to 4.10</strong>
-            <span>Native line</span>
+      </section>
+
+      <section class="panel glass" id="data">
+        <h2>What can be sent</h2>
+        <p class="panel-copy">Only the content needed for the request you started.</p>
+        <div class="facts">
+          <div class="fact">
+            <strong>Messages</strong>
+            <p>The text you type and the model settings attached to that request.</p>
           </div>
-          <div class="metric">
-            <strong>16 modules</strong>
-            <span>Clear seams</span>
+          <div class="fact">
+            <strong>Attachments</strong>
+            <p>Images, documents, and files only when you choose to attach them.</p>
           </div>
-          <div class="metric">
-            <strong>1 runtime</strong>
-            <span>Actor-owned</span>
+          <div class="fact">
+            <strong>Voice</strong>
+            <p>Audio only when you record and send it.</p>
           </div>
-          <div class="metric">
-            <strong>Direct + gateway</strong>
-            <span>Transport</span>
+          <div class="fact">
+            <strong>Recovery</strong>
+            <p>Response identifiers may be used to resume in-progress replies.</p>
           </div>
         </div>
       </section>
 
-      <section class="panel glass" id="system">
-        <h2>System</h2>
-        <p class="panel-copy">A shorter mobile version of the same architecture story.</p>
-        <div class="system-grid">
-          <article class="system-item">
-            <span>Surface</span>
-            <strong>UI stays at the edge</strong>
-            <p>Chat, history, settings, and previews stay in the surface layer.</p>
-          </article>
-          <article class="system-item">
-            <span>Composition</span>
-            <strong>Wiring happens once</strong>
-            <p>The composition root owns production assembly.</p>
-          </article>
-          <article class="system-item">
-            <span>Runtime</span>
-            <strong>One owner for reply state</strong>
-            <p>ReplySessionActor owns mutation while evaluators keep decisions explicit.</p>
-          </article>
-          <article class="system-item">
-            <span>Release</span>
-            <strong>Harder gates</strong>
-            <p>CI, docs, localization, accessibility, and performance checks ship with the product.</p>
-          </article>
-        </div>
+      <section class="panel glass">
+        <h2>Who can receive it</h2>
+        <p class="panel-copy">Two providers may be involved, depending on your routing settings.</p>
+        <ul class="mini-list">
+          <li>OpenAI processes requests needed to generate responses.</li>
+          <li>Cloudflare is only in the route when Gateway mode is enabled.</li>
+        </ul>
       </section>
 
-      <section class="panel glass" id="timeline">
-        <h2>Timeline</h2>
-        <p class="panel-copy">Five short milestones from the changelog.</p>
-        <div class="timeline-list">
-          <article class="timeline-item">
-            <span>4.5</span>
-            <strong>Native rewrite</strong>
-            <p>SwiftUI, SwiftData, and package boundaries land together.</p>
-          </article>
-          <article class="timeline-item">
-            <span>4.7</span>
-            <strong>Runtime ownership</strong>
-            <p>ReplySessionActor and the composition root become explicit.</p>
-          </article>
-          <article class="timeline-item">
-            <span>4.8</span>
-            <strong>Engineering rigor</strong>
-            <p>Typed throws, observability, accessibility, and stronger CI expand the safety net.</p>
-          </article>
-          <article class="timeline-item">
-            <span>4.9</span>
-            <strong>Boundary tightening</strong>
-            <p>Ownership narrows and release-readiness becomes standard.</p>
-          </article>
-          <article class="timeline-item">
-            <span>4.10</span>
-            <strong>Reliability line</strong>
-            <p>Gateway modes, direct validation, fallback routing, and runtime hardening mature together.</p>
-          </article>
-        </div>
+      <section class="panel glass">
+        <h2>What stays local</h2>
+        <p class="panel-copy">The app keeps the working state on device unless you explicitly send it.</p>
+        <ul class="mini-list">
+          <li>Your API key is stored in Keychain.</li>
+          <li>Conversation history, settings, and cached files stay local to the device.</li>
+        </ul>
       </section>
 
-      <section class="panel glass" id="support">
+      <section class="panel glass">
+        <h2>Your controls</h2>
+        <p class="panel-copy">Privacy choices should stay visible and reversible.</p>
+        <ul class="mini-list">
+          <li>Consent should be shown before first AI use.</li>
+          <li>Cloudflare Gateway is optional and can be disabled in Settings.</li>
+          <li>You can remove keys, clear chats, and clear cached files from the app.</li>
+        </ul>
+      </section>
+
+      <section class="panel glass">
         <h2>Support</h2>
-        <p class="panel-copy">Local-first. Bring your own API key. Optional gateway routing.</p>
+        <p class="panel-copy">Questions, support, or correction requests.</p>
         <ul class="support-links">
           <li><a href="mailto:ljnpro6@gmail.com">ljnpro6@gmail.com</a></li>
-          <li><a href="privacy/">Privacy page</a></li>
           <li><a href="https://github.com/ljnpro/GlassGPT" target="_blank" rel="noopener">GitHub repository</a></li>
         </ul>
-        <div class="support-note">This mobile route keeps the same 4.0 story, but trims it for smaller screens.</div>
+        <p class="support-note">This mobile page mirrors the desktop privacy page in a shorter format.</p>
       </section>
     </main>
 
     <footer class="footer">
-      GlassGPT 4.0 release era, 4.5 through 4.10.
+      GlassGPT privacy page for the native client.
     </footer>
   </div>
 </body>
