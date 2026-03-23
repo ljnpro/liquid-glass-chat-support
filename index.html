@@ -343,7 +343,7 @@
 
     .hero-proof strong {
       display: block;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
       font-family: var(--font-display);
       font-size: 22px;
       font-weight: 700;
@@ -353,15 +353,8 @@
 
     .hero-proof span {
       display: block;
-      font-size: 13px;
-      line-height: 1.55;
-      color: var(--text-soft);
-    }
-
-    .hero-caption {
-      max-width: 560px;
-      font-size: 13px;
-      line-height: 1.65;
+      font-size: 12px;
+      line-height: 1.4;
       color: var(--text-soft);
     }
 
@@ -494,8 +487,8 @@
 
     .stage-block p {
       margin: 0;
-      font-size: 13px;
-      line-height: 1.55;
+      font-size: 12px;
+      line-height: 1.45;
       color: var(--text-muted);
     }
 
@@ -1076,7 +1069,10 @@
       }
 
       .hero-proof,
-      .quality-strip,
+      .quality-strip {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
       .stage-grid {
         grid-template-columns: 1fr;
       }
@@ -1163,11 +1159,9 @@
         </div>
       </a>
       <ul class="nav-links" aria-label="Primary navigation">
-        <li><a href="#era">Era</a></li>
-        <li><a href="#architecture">Architecture</a></li>
-        <li><a href="#workflow">Workflow</a></li>
+        <li><a href="#era">4.0</a></li>
+        <li><a href="#architecture">System</a></li>
         <li><a href="#timeline">Timeline</a></li>
-        <li><a href="#faq">FAQ</a></li>
         <li><a href="#support">Support</a></li>
       </ul>
       <a class="nav-cta" href="https://github.com/ljnpro/GlassGPT" target="_blank" rel="noopener">Source Code</a>
@@ -1184,7 +1178,7 @@
             <span>Modular by default.</span>
           </h1>
           <p class="hero-lead">
-            GlassGPT 4.0 spans the rebuild through 4.10: clear modules, actor-owned runtime, steadier recovery, and calmer liquid glass on iPhone and iPad.
+            A native SwiftUI chat client rebuilt around clear modules, actor-owned runtime, and steadier recovery.
           </p>
           <div class="hero-actions">
             <a class="button button-primary" href="https://github.com/ljnpro/GlassGPT" target="_blank" rel="noopener">View the source</a>
@@ -1193,24 +1187,21 @@
           <ul class="hero-proof" aria-label="Release proof points">
             <li>
               <strong>4.5 to 4.10</strong>
-              <span>One architecture story instead of scattered release notes.</span>
+              <span>Native era</span>
             </li>
             <li>
               <strong>16 modules</strong>
-              <span>Package boundaries keep the client readable as it grows.</span>
+              <span>Clear seams</span>
             </li>
             <li>
               <strong>1 runtime owner</strong>
-              <span>ReplySessionActor owns reply state and recovery.</span>
+              <span>Actor-owned</span>
             </li>
             <li>
               <strong>Release-grade</strong>
-              <span>CI, docs, accessibility, and release gates ship with the product.</span>
+              <span>Hard gates</span>
             </li>
           </ul>
-          <p class="hero-caption">
-            This page uses 4.0 as the umbrella label for the native rewrite and the hardening work that follows through 4.10.
-          </p>
         </div>
 
         <div class="hero-stage reveal">
@@ -1230,37 +1221,37 @@
               <article class="stage-block">
                 <span>Surface</span>
                 <strong>NativeChatUI</strong>
-                <p>Chat, history, settings, selectors, previews, and polished glass surfaces.</p>
+                <p>Chat, history, settings.</p>
               </article>
               <article class="stage-block">
                 <span>Composition</span>
                 <strong>Composition Root</strong>
-                <p>Production wiring stays centralized instead of leaking dependencies across the app.</p>
+                <p>Production wiring only.</p>
               </article>
               <article class="stage-block">
                 <span>Application</span>
                 <strong>Presentation flow</strong>
-                <p>Scene, settings, history, and runtime coordination remain narrow and explicit.</p>
+                <p>Focused stores and flows.</p>
               </article>
               <article class="stage-block">
                 <span>Runtime</span>
                 <strong>Recovery aware</strong>
-                <p>Pure evaluators and lifecycle transitions keep stream, poll, and resume logic legible.</p>
+                <p>Actor plus evaluators.</p>
               </article>
               <article class="stage-block">
                 <span>Persistence</span>
                 <strong>Local first</strong>
-                <p>SwiftData, settings storage, and Keychain-backed credentials stay on device.</p>
+                <p>SwiftData and Keychain.</p>
               </article>
               <article class="stage-block">
                 <span>Transport</span>
                 <strong>Direct plus gateway</strong>
-                <p>OpenAI transport, optional Cloudflare routing, fallback handling, files, and previews.</p>
+                <p>Direct, gateway, files.</p>
               </article>
             </div>
 
             <p class="stage-foot">
-              One mutable runtime owner. One production composition root. Clean boundaries everywhere else.
+              One runtime owner. One production root.
             </p>
           </div>
         </div>
@@ -1270,21 +1261,21 @@
     <section class="section" id="era">
       <div class="frame section-shell">
         <div class="section-lockup reveal">
-          <div class="eyebrow">Release thesis</div>
-          <h2 class="section-title">4.0 is the native architecture era, not a cosmetic patch.</h2>
+          <div class="eyebrow">4.0 in four moves</div>
+          <h2 class="section-title">A shorter way to describe the release line.</h2>
           <p class="section-copy">
-            The surface feels cleaner because the internals are cleaner: narrower ownership, explicit recovery, and release gates that keep the app stable as it grows.
+            Native rebuild. Clear seams. One runtime owner. Harder release gates.
           </p>
           <div class="divider"></div>
         </div>
 
         <div class="thesis-sheet glass-plane reveal">
           <article class="thesis-row">
-            <div class="row-label">Native rebuild</div>
+            <div class="row-label">Native</div>
             <div class="row-body">
-              <h3>SwiftUI-native from the ground up</h3>
+              <h3>SwiftUI from the start</h3>
               <p>
-                GlassGPT moved to Swift, SwiftUI, and SwiftData so the app could behave like a native Apple product instead of a wrapped client.
+                The client was rebuilt in Swift, SwiftUI, and SwiftData.
               </p>
             </div>
           </article>
@@ -1292,29 +1283,29 @@
           <article class="thesis-row">
             <div class="row-label">Modules</div>
             <div class="row-body">
-              <h3>Boundaries turned into product leverage</h3>
+              <h3>Clear package boundaries</h3>
               <p>
-                Transport, persistence, runtime, UI, and composition were split into focused targets with enforced boundaries.
+                UI, transport, persistence, and runtime stay separate as the app grows.
               </p>
             </div>
           </article>
 
           <article class="thesis-row">
-            <div class="row-label">Runtime clarity</div>
+            <div class="row-label">Runtime</div>
             <div class="row-body">
-              <h3>Recovery and reasoning became explicit systems</h3>
+              <h3>One owner for reply state</h3>
               <p>
-                Streaming, retry, recovery, and reasoning became named runtime behaviors instead of incidental side effects.
+                ReplySessionActor owns mutable reply state while evaluators keep decisions pure.
               </p>
             </div>
           </article>
 
           <article class="thesis-row">
-            <div class="row-label">Release quality</div>
+            <div class="row-label">Discipline</div>
             <div class="row-body">
-              <h3>Engineering rigor now ships with the interface</h3>
+              <h3>Shipping got stricter</h3>
               <p>
-                Typed throws, accessibility, localization, docs, performance checks, and CI now ship as part of the product contract.
+                CI, accessibility, docs, localization, and performance checks became part of the release contract.
               </p>
             </div>
           </article>
@@ -1325,10 +1316,10 @@
     <section class="section" id="architecture">
       <div class="frame section-shell">
         <div class="section-lockup reveal">
-          <div class="eyebrow">Architecture</div>
-          <h2 class="section-title">The modular design is legible on purpose.</h2>
+          <div class="eyebrow">System</div>
+          <h2 class="section-title">A few rules do most of the work.</h2>
           <p class="section-copy">
-            GlassGPT is easier to trust because the seams are obvious: UI stays at the surface, composition wires production once, pure evaluators make decisions, and mutable reply state stays inside the runtime owner.
+            Keep UI on the surface. Wire production once. Mutate reply state in one place.
           </p>
           <div class="divider"></div>
         </div>
@@ -1336,81 +1327,34 @@
         <div class="reveal">
           <div class="architecture-board glass-plane">
             <article class="architecture-row">
-              <div class="row-label">UI / surface</div>
+              <div class="row-label">Surface</div>
               <div class="row-body">
-                <strong>NativeChatUI and ChatUIComponents</strong>
-                <p>Chat, history, settings, model selection, markdown, and previews live in the surface layer.</p>
-                <div class="architecture-tags">
-                  <span>Chat</span>
-                  <span>History</span>
-                  <span>Settings</span>
-                  <span>Previews</span>
-                </div>
+                <strong>UI stays at the edge</strong>
+                <p>Chat, history, settings, markdown, and previews stay in the surface layer.</p>
               </div>
             </article>
 
             <article class="architecture-row">
               <div class="row-label">Composition</div>
               <div class="row-body">
-                <strong>NativeChatComposition as orchestration only</strong>
-                <p>Production wiring lives in one root so dependencies do not drift through the app.</p>
-                <div class="architecture-tags">
-                  <span>Composition root</span>
-                  <span>Coordinator pattern</span>
-                  <span>No wiring drift</span>
-                </div>
-              </div>
-            </article>
-
-            <article class="architecture-row">
-              <div class="row-label">Application</div>
-              <div class="row-body">
-                <strong>Presentation and scene logic stay narrow</strong>
-                <p>Settings, history, and screen state stay in focused flows instead of one expanding controller.</p>
-                <div class="architecture-tags">
-                  <span>Settings flow</span>
-                  <span>History flow</span>
-                  <span>Controller slimming</span>
-                </div>
+                <strong>Production wiring happens once</strong>
+                <p>The composition root owns assembly so dependencies do not drift.</p>
               </div>
             </article>
 
             <article class="architecture-row">
               <div class="row-label">Runtime</div>
               <div class="row-body">
-                <strong>Actor-owned runtime with pure evaluators</strong>
-                <p>ReplySessionActor owns mutable reply state; evaluators keep terminal and recovery logic explicit.</p>
-                <div class="architecture-tags">
-                  <span>ReplySessionActor</span>
-                  <span>Recovery evaluators</span>
-                  <span>Runtime ownership</span>
-                </div>
-              </div>
-            </article>
-
-            <article class="architecture-row">
-              <div class="row-label">Persistence</div>
-              <div class="row-body">
-                <strong>Local-first storage that survives real use</strong>
-                <p>SwiftData, settings storage, and Keychain-backed secrets were hardened for predictable local behavior.</p>
-                <div class="architecture-tags">
-                  <span>SwiftData</span>
-                  <span>Keychain</span>
-                  <span>Settings storage</span>
-                </div>
+                <strong>Reply state has one owner</strong>
+                <p>ReplySessionActor owns mutation while evaluators keep recovery and terminal decisions explicit.</p>
               </div>
             </article>
 
             <article class="architecture-row">
               <div class="row-label">Transport</div>
               <div class="row-body">
-                <strong>Direct OpenAI by default, gateway when needed</strong>
-                <p>Direct OpenAI, optional gateway routing, fallback handling, and file transport stay out of the UI.</p>
-                <div class="architecture-tags">
-                  <span>OpenAI transport</span>
-                  <span>Gateway modes</span>
-                  <span>Generated files</span>
-                </div>
+                <strong>Routing stays outside the UI</strong>
+                <p>Direct OpenAI, optional gateway routing, and file flows stay in transport.</p>
               </div>
             </article>
           </div>
@@ -1437,84 +1381,13 @@
       </div>
     </section>
 
-    <section class="section" id="workflow">
-      <div class="frame section-shell">
-        <div class="section-lockup reveal">
-          <div class="eyebrow">What users feel</div>
-          <h2 class="section-title">The refactor changed product behavior, not just internal code.</h2>
-          <p class="section-copy">
-            The refactor changed what people feel: better recovery, clearer reasoning controls, steadier routing, and a UI that no longer fights the runtime.
-          </p>
-          <div class="divider"></div>
-        </div>
-
-        <div class="story-stream reveal">
-          <article class="story-row">
-            <div class="row-label">Recovery</div>
-            <div class="row-body">
-              <h3>Interrupted replies can resume instead of collapsing.</h3>
-              <p>
-                Interruption is treated as a state transition, not a dead end.
-              </p>
-              <ul class="row-points">
-                <li>Recovery fetch, stream, poll, and terminal outcomes are modeled separately.</li>
-                <li>Background and relaunch behavior are handled deliberately.</li>
-              </ul>
-            </div>
-          </article>
-
-          <article class="story-row">
-            <div class="row-label">Reasoning</div>
-            <div class="row-body">
-              <h3>Reasoning controls now feel integrated instead of bolted on.</h3>
-              <p>
-                Reasoning settings are model-aware and tied more closely to runtime state.
-              </p>
-              <ul class="row-points">
-                <li>GPT-5.4 supports none, low, medium, high, and xhigh.</li>
-                <li>GPT-5.4 Pro focuses on medium, high, and xhigh.</li>
-              </ul>
-            </div>
-          </article>
-
-          <article class="story-row">
-            <div class="row-label">Routing</div>
-            <div class="row-body">
-              <h3>Direct and gateway routing are now part of a coherent transport model.</h3>
-              <p>
-                Validation can stay direct, gateway routing can stay optional, and first-reply failures are handled more gracefully.
-              </p>
-              <ul class="row-points">
-                <li>Custom gateway URL and token are supported.</li>
-                <li>Direct validation and fallback reduce bad first impressions.</li>
-              </ul>
-            </div>
-          </article>
-
-          <article class="story-row">
-            <div class="row-label">Surface polish</div>
-            <div class="row-body">
-              <h3>The UI now reflects the underlying discipline.</h3>
-              <p>
-                Settings, history, downloads, and selectors were tightened to feel like one product.
-              </p>
-              <ul class="row-points">
-                <li>Accessibility, localization, and snapshots became normal release work.</li>
-                <li>Generated file preview and share flows now feel native.</li>
-              </ul>
-            </div>
-          </article>
-        </div>
-      </div>
-    </section>
-
     <section class="section" id="timeline">
       <div class="frame section-shell">
         <div class="section-lockup reveal">
           <div class="eyebrow">Release timeline</div>
-          <h2 class="section-title">How the 4.0 era came together through 4.10.</h2>
+          <h2 class="section-title">Five short milestones.</h2>
           <p class="section-copy">
-            These milestones are curated from the real changelog. They highlight the shifts that made GlassGPT more native, more modular, and more stable.
+            Curated milestones from the real changelog.
           </p>
           <div class="divider"></div>
         </div>
@@ -1526,14 +1399,10 @@
               <span class="timeline-date">January 20, 2025</span>
             </div>
             <div class="timeline-body">
-              <h3>The native rewrite becomes real.</h3>
-              <p>
-                The app becomes a native SwiftUI client with SwiftData and package boundaries.
-              </p>
+              <h3>Native rewrite</h3>
               <ul>
                 <li>Complete native SwiftUI rewrite of the chat client.</li>
-                <li>SwiftData replaces the previous storage path.</li>
-                <li>16 SPM modules introduce clean dependency boundaries.</li>
+                <li>SwiftData and package boundaries land together.</li>
               </ul>
             </div>
           </article>
@@ -1544,14 +1413,10 @@
               <span class="timeline-date">March 18, 2025</span>
             </div>
             <div class="timeline-body">
-              <h3>Runtime ownership becomes explicit.</h3>
-              <p>
-                Runtime ownership moves into an actor-plus-coordinator architecture.
-              </p>
+              <h3>Runtime ownership</h3>
               <ul>
                 <li>ReplySessionActor becomes the single mutable runtime owner.</li>
-                <li>NativeChatCompositionRoot becomes the sole production composition root.</li>
-                <li>Coordinator-based orchestration replaces broader controller ownership.</li>
+                <li>Composition root and coordinators replace broader controller ownership.</li>
               </ul>
             </div>
           </article>
@@ -1562,14 +1427,10 @@
               <span class="timeline-date">March 18 to March 19, 2026</span>
             </div>
             <div class="timeline-body">
-              <h3>Engineering rigor turns into a shipping surface.</h3>
-              <p>
-                Quality gates expand from code health into shipping discipline.
-              </p>
+              <h3>Engineering rigor</h3>
               <ul>
-                <li>Typed throws, diagnostics, and MetricKit observability expand the safety net.</li>
-                <li>Accessibility audits, doc coverage, and localization become tracked release requirements.</li>
-                <li>CI grows from basic build checks into a real engineering gate system.</li>
+                <li>Typed throws, observability, and accessibility expand the safety net.</li>
+                <li>CI grows into a real engineering gate system.</li>
               </ul>
             </div>
           </article>
@@ -1580,14 +1441,10 @@
               <span class="timeline-date">March 19 to March 20, 2026</span>
             </div>
             <div class="timeline-body">
-              <h3>Boundaries tighten and release discipline sharpens.</h3>
-              <p>
-                Ownership tightens and release readiness becomes concrete.
-              </p>
+              <h3>Boundary tightening</h3>
               <ul>
                 <li>Settings and history ownership are tightened across application, presentation, and composition.</li>
-                <li>Composition coordinators stop depending on the full ChatController.</li>
-                <li>Localization, documentation, and release-readiness enforcement become standard.</li>
+                <li>Release-readiness, localization, and documentation checks become standard.</li>
               </ul>
             </div>
           </article>
@@ -1598,103 +1455,13 @@
               <span class="timeline-date">March 21 to March 23, 2026</span>
             </div>
             <div class="timeline-body">
-              <h3>The reliability line matures the product around the architecture.</h3>
-              <p>
-                Transport, settings, and runtime hardening converge into the reliability line.
-              </p>
+              <h3>Reliability line</h3>
               <ul>
-                <li>Cloudflare gateway configuration modes ship with direct-route validation and fallback handling.</li>
-                <li>Runtime, settings, and CI wiring are stabilized for the 4.10 line.</li>
-                <li>Repeated fixes harden reasoning, recovery, streaming, and settings behavior.</li>
+                <li>Gateway modes, direct validation, and fallback handling land in transport.</li>
+                <li>Runtime, settings, and streaming behavior are repeatedly hardened.</li>
               </ul>
             </div>
           </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="faq">
-      <div class="frame section-shell">
-        <div class="section-lockup reveal">
-          <div class="eyebrow">FAQ</div>
-          <h2 class="section-title">Short answers for the practical questions.</h2>
-          <p class="section-copy">
-            Still a support page. Just much tighter.
-          </p>
-          <div class="divider"></div>
-        </div>
-
-        <div class="faq-list reveal">
-          <details class="faq-item">
-            <summary>
-              <span>What does "GlassGPT 4.0" mean on this page?</span>
-              <span class="faq-symbol">+</span>
-            </summary>
-            <div class="faq-copy">
-              It is the umbrella release era, not a single tag. This page groups the native architecture milestones from 4.5 through 4.10 into one product story.
-            </div>
-          </details>
-
-          <details class="faq-item">
-            <summary>
-              <span>Which models and reasoning levels are supported?</span>
-              <span class="faq-symbol">+</span>
-            </summary>
-            <div class="faq-copy">
-              GlassGPT supports GPT-5.4 and GPT-5.4 Pro. GPT-5.4 offers none through xhigh. GPT-5.4 Pro offers medium through xhigh.
-            </div>
-          </details>
-
-          <details class="faq-item">
-            <summary>
-              <span>Do I need my own API key?</span>
-              <span class="faq-symbol">+</span>
-            </summary>
-            <div class="faq-copy">
-              Yes. GlassGPT is built around your own OpenAI API key, stored locally on your device.
-            </div>
-          </details>
-
-          <details class="faq-item">
-            <summary>
-              <span>Is Cloudflare required?</span>
-              <span class="faq-symbol">+</span>
-            </summary>
-            <div class="faq-copy">
-              No. Gateway routing is optional, and direct validation stays available.
-            </div>
-          </details>
-
-          <details class="faq-item">
-            <summary>
-              <span>What happens if streaming is interrupted?</span>
-              <span class="faq-symbol">+</span>
-            </summary>
-            <div class="faq-copy">
-              Recovery is built into the runtime, so partial replies, reconnects, and relaunch handling behave more predictably.
-            </div>
-          </details>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="privacy">
-      <div class="frame section-shell">
-        <div class="section-lockup reveal">
-          <div class="eyebrow">Privacy</div>
-          <h2 class="section-title">Private by default, explicit by design.</h2>
-          <p class="section-copy">
-            Local storage, explicit credentials, clear routing choices.
-          </p>
-          <div class="divider"></div>
-        </div>
-
-        <div class="privacy-panel glass-plane reveal">
-          <ul class="privacy-points">
-            <li><strong>Local-first storage.</strong> Conversations, settings, and most product state stay on device.</li>
-            <li><strong>Credential discipline.</strong> API keys are stored in Keychain-backed storage.</li>
-            <li><strong>Direct by default.</strong> Gateway routing is optional and explicit.</li>
-          </ul>
         </div>
       </div>
     </section>
@@ -1704,9 +1471,9 @@
         <div class="support-panel glass-plane reveal">
           <div>
             <div class="eyebrow">Support</div>
-            <h3>Need help or want the source?</h3>
+            <h3>Support, source, and privacy.</h3>
             <p>
-              Reach out directly, or inspect the source behind the 4.0 architecture line.
+              Local-first. Bring your own API key. Optional gateway routing.
             </p>
             <ul class="support-links">
               <li><a href="mailto:ljnpro6@gmail.com">ljnpro6@gmail.com</a></li>
@@ -1725,10 +1492,10 @@
         <img src="icon.png" alt="GlassGPT logo" />
         <div>
           <strong>GlassGPT</strong>
-          <span>4.0 release era summary for the 4.5 to 4.10 line.</span>
+          <span>4.0 release era, 4.5 through 4.10.</span>
         </div>
       </div>
-      <div class="footer-note">Product page, support entry, and release summary in one static site.</div>
+      <div class="footer-note">A shorter product page for the native architecture line.</div>
     </div>
   </footer>
 
